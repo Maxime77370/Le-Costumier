@@ -2,7 +2,7 @@ import { type Config } from 'tailwindcss'
 
 const config: Config = {
   darkMode: ['class'],
-  content: ['./src/**/*.{ts,tsx}'],
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     container: {
       center: true,
@@ -51,6 +51,17 @@ const config: Config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)'
+      },
+      fontFamily: {
+        black: ['Black'],
+        extraBold: ['ExtraBold'],
+        bold: ['Bold'],
+        semiBold: ['SemiBold'],
+        medium: ['Medium'],
+        regular: ['Regular'],
+        light: ['Light'],
+        extraLight: ['ExtraLight'],
+        thin: ['Thin']
       },
       keyframes: {
         'accordion-down': {
