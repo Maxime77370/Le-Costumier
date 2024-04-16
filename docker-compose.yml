@@ -17,7 +17,7 @@ services:
     build: ./app
     container_name: 'php'
     volumes:
-      - './app:/var/www/symfony'
+      - ./app:/var/www/symfony
     environment:
       - 'DATABASE_URL=postgres://postgres:password@postgres:5432/ecommerce'
     ports:
