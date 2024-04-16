@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { ProductCarousel } from '@/components/product-carousel'
+import { ProductCarousel } from '@/components/product/product-carousel'
 
 export const Route = createFileRoute('/home')({
   component: Home
@@ -14,10 +14,7 @@ function Home() {
         alt='home'
         className='h-96 w-full object-cover'
       />
-      <ProductCarousel
-        limit={3}
-        className='flex flex-col items-center gap-y-4 p-4'
-      />
+      <ProductCarousel className='flex flex-col items-center gap-y-4 p-4' />
     </>
   )
 }
