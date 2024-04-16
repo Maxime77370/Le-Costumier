@@ -36,4 +36,6 @@ RUN composer install
 
 EXPOSE 8000
 
-CMD [ "symfony", "server:start" ]
+RUN chmod +x ./entrypoint.sh
+
+ENTRYPOINT [ "/bin/sh", "/var/www/symfony/entrypoint.sh" ]
