@@ -13,7 +13,7 @@ function Register() {
   return (
     <div className='relative'>
       <div className='container flex h-screen max-w-2xl flex-col items-center justify-center'>
-        <h1 className='text-2xl font-bold sm:text-3xl'>
+        <h1 className='mb-1 font-bold text-2xl sm:text-3xl'>
           Welcome, you're almost there!
         </h1>
         <p className='text-muted-foreground'>
