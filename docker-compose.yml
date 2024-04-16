@@ -6,7 +6,7 @@ services:
     image: 'postgres:alpine'
     container_name: 'postgres'
     volumes:
-      - './postgres_data:/var/lib/postgresql'
+      - ./postgres_data:/var/lib/postgresql
     environment:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'password'
@@ -17,7 +17,7 @@ services:
     build: ./app
     container_name: 'php'
     volumes:
-      - ./app:/var/www/symfony
+      - ./app:/var/www/symfony:delegated
     environment:
       - 'DATABASE_URL=postgres://postgres:password@postgres:5432/ecommerce'
     ports:
