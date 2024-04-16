@@ -4,12 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_UUID', fields: ['uuid'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['login'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -18,7 +19,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    private ?string $uuid = null;
+    private ?string $login = null;
+
+    #[ORM\Column(length: 32, unique: true)]
+    private ?string $email = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $lastname = null;
 
     /**
      * @var list<string> The user roles
@@ -37,14 +47,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getUuid(): ?string
+    public function getLogin(): ?string
     {
-        return $this->uuid;
+        return $this->login;
     }
 
-    public function setUuid(string $uuid): static
+    public function setLogin(string $login): static
     {
-        $this->uuid = $uuid;
+        $this->login = $login;
 
         return $this;
     }
@@ -56,7 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->uuid;
+        return (string) $this->login;
     }
 
     /**
