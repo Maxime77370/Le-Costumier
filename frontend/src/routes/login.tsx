@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 
 import { LoginForm } from '@/components/auth/login-form'
+import { Icons } from '@/components/icons'
+import { useTheme } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/login')({
@@ -10,6 +12,8 @@ export const Route = createFileRoute('/login')({
 })
 
 function Login() {
+  const { resolvedTheme } = useTheme()
+
   return (
     <div className='relative'>
       <div className='container flex h-screen max-w-2xl flex-col items-center justify-center'>
@@ -31,7 +35,17 @@ function Login() {
         </p>
       </div>
 
-      <ThemeToggle className='absolute right-2 top-2' />
+      <ThemeToggle>
+        <Button
+          variant='outline'
+          size='sm'
+          className='absolute right-2 top-2 flex gap-x-1'
+        >
+          <Icons.sun className='size-4 dark:hidden' />
+          <Icons.moon className='hidden size-4 dark:block' />
+          <span className='capitalize'>{resolvedTheme}</span>
+        </Button>
+      </ThemeToggle>
     </div>
   )
 }

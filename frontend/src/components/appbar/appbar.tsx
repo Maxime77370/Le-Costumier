@@ -2,7 +2,8 @@ import { Link } from '@tanstack/react-router'
 
 import { cn } from '@/lib/utils'
 import { Icons } from '../icons'
-import { buttonVariants } from '../ui/button'
+import { ThemeToggle } from '../theme-toggle'
+import { Button, buttonVariants } from '../ui/button'
 import { AppbarNavigationMenu } from './navigation-menu'
 
 function Appbar() {
@@ -10,7 +11,7 @@ function Appbar() {
 
   return (
     <header className='h-14 border-b'>
-      <div className='container relative flex h-full items-center gap-x-4'>
+      <div className='container relative flex h-full items-center gap-x-2'>
         <Link
           to='/'
           className={cn(
@@ -22,14 +23,28 @@ function Appbar() {
         </Link>
 
         <div className='flex-1'>
-          <AppbarNavigationMenu />
+          <AppbarNavigationMenu className='hidden sm:block' />
         </div>
+
+        <ThemeToggle>
+          <Button variant='ghost' size='icon'>
+            <Icons.sun className='size-5 dark:hidden' />
+            <Icons.moon className='hidden size-5 dark:block' />
+          </Button>
+        </ThemeToggle>
 
         <Link
           to={isLogged ? '/account' : '/login'}
           className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }))}
         >
           <Icons.user className='size-5' />
+        </Link>
+
+        <Link
+          to='/'
+          className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }))}
+        >
+          <Icons.cart className='size-5' />
         </Link>
       </div>
     </header>

@@ -1,7 +1,5 @@
-import React from 'react'
 import { Product } from 'types/product'
 
-import { ProductBadge } from '@/components/product/product-badge'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,33 +8,42 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+import { ProductCategoriesBadge } from './product-categories-badge'
 
 type ProductCardProps = {
   product: Product
   className?: string
 }
 
-export function ProductCard({ product, className }: ProductCardProps) {
+function ProductCard({ product, className }: ProductCardProps) {
   return (
     <Card className={className}>
-      <CardHeader className=' p-0'>
-        <img src={product.image} alt={product.name} className='rounded-t-lg' />
+      <CardHeader className='p-0'>
+        <img src={product.image} alt={product.name} />
       </CardHeader>
-      <CardContent className='mt-4 flex flex-col items-start space-y-1'>
+
+      <CardContent className='space-y-1 pt-4'>
         <CardTitle>{product.name}</CardTitle>
-        <ProductBadge product={product} className='' />
+
+        <ProductCategoriesBadge product={product} />
+
         <CardDescription>{product.description}</CardDescription>
 
-        <div className='flex w-full items-center justify-between'>
-          <span className='font-semibold text-primary'>
+        <div className='flex w-full items-center justify-between pt-2'>
+          <span className='font-semibold'>
             {product.price.toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD'
             })}
           </span>
-          <Button variant='secondary'>Add to cart</Button>
+
+          <Button variant='secondary' size='sm'>
+            Add to cart
+          </Button>
         </div>
       </CardContent>
     </Card>
   )
 }
+
+export { ProductCard }
