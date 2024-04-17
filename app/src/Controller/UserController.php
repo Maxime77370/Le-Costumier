@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends AbstractController
 {
-    #[Route('/api/register', name: 'register_user')]
+    #[Route('/api/register', name: 'register_user', methods: ['POST'])]
     public function registerUser(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -24,8 +24,7 @@ class UserController extends AbstractController
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {
                 return new JsonResponse([
-                    'success'=> false,
-                    'message'=> sprintf('Missing required field: %s', $field)
+                    'error'=> sprintf('Missing required field: %s', $field)
                 ], 400);
             }
         }
@@ -36,8 +35,7 @@ class UserController extends AbstractController
 
         if ($existingUser) {
             return new JsonResponse([
-                'success'=> false,
-                'message'=> 'Email already exists'
+                'error'=> 'Email already exists'
             ], 400);
         }
 
@@ -48,8 +46,7 @@ class UserController extends AbstractController
 
         if ($existingUser) {
             return new JsonResponse([
-                'success'=> false,
-                'message'=> 'Login already exists'
+                'error'=> 'Login already exists'
             ], 400);
         }
 
@@ -67,8 +64,7 @@ class UserController extends AbstractController
         if (count($errors) > 0) {
             // Handle validation errors
             return new JsonResponse([
-                'success'=> false,
-                'message'=> 'Validation errors'
+                'error'=> 'Validation errors'
             ], 400);
         }
 
@@ -77,7 +73,6 @@ class UserController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse([
-            'success'=> true,
             'message'=> 'User registered successfully'
         ], 201);
     }
