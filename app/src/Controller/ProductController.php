@@ -38,9 +38,35 @@ class ProductController extends AbstractController
 
 
     #[Route('/api/products', name: 'app_product', methods: ['GET'])]
-    public function getAllProducts(ProductRepository $productRepository, SerializerInterface $serializer ): JsonResponse
+    public function getAllProducts(ProductRepository $productRepository, SerializerInterface $serializer, Request $request ): JsonResponse
     {
-        $productList = $productRepository->findAll();
+        $field = $request->query->get('orderByField');
+        $order = $request->query->get('order');
+
+        if ($field) {
+            $allowedFields = ['name', 'price'];
+            if (!in_array($field, $allowedFields)) {
+                return new JsonResponse([
+                    'error' => 'Invalid field'
+                ], 400);
+            }
+
+            if (!$order) {
+                $order = 'ASC';
+            } else {
+                $order = strtoupper($order);
+                if ($order !== 'ASC' && $order !== 'DESC') {
+                    return new JsonResponse([
+                        'error' => 'Invalid order'
+                    ], 400);
+                }
+            }
+            
+            $productList = $productRepository->findAllOrderBy($field, $order);
+        } else {
+            $productList = $productRepository->findAll();
+        }
+
         $jsonBookList = $serializer->serialize($productList, 'json');
         return new JsonResponse($jsonBookList, 200, [], true);
     }
