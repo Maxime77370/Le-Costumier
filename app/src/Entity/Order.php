@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Ignore;
+
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
 class Order
@@ -28,6 +30,12 @@ class Order
      */
     #[ORM\ManyToMany(targetEntity: Product::class)]
     private Collection $products;
+
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
+    /** @Ignore() */
+    #[Ignore]
+    private ?User $owner = null;
 
     public function __construct()
     {
@@ -83,6 +91,18 @@ class Order
     public function removeRelation(Product $product): static
     {
         $this->products->removeElement($product);
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }

@@ -21,6 +21,15 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    public function getByUserId(int $userId): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Order[] Returns an array of Order objects
     //     */
