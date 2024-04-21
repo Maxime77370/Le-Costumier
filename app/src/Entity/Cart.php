@@ -39,6 +39,10 @@ class Cart
         return $this->Products;
     }
 
+    public function clearCart(): void {
+        $this->Products->clear();
+    }
+
     public function addProduct(Product $product): static
     {
         if (!$this->Products->contains($product)) {

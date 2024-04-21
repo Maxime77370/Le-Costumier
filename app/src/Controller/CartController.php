@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Cart;
+use App\Entity\Order;
 use App\Entity\Product;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,5 +71,30 @@ class CartController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse(['message' => 'Product removed'], 200);
+    }
+
+    #[Route('/api/carts/validate', name: 'app_cart_validate', methods: ['POST'])]
+    public function validateCart(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $decodedToken = $this->jwtManager->decode($this->tokenStorageInterface->getToken());
+        $user = $entityManager->getRepository(User::class)->findOneBy([
+            'login' => $decodedToken['username'],
+        ]);
+        $cart = $user->getCart();
+        $order = new Order();
+
+        $order->setCreationDate(new \DateTime());
+        $order->setTotalPrice(0);
+        $order->setOwner($user);
+        foreach ($cart->getProducts() as $product) {
+            $order->addProduct($product);
+            $order->setTotalPrice($order->getTotalPrice() + $product->getPrice());
+        }
+        $entityManager->persist($order);
+        $cart->clearCart();
+        $entityManager->persist($cart);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Cart validated'], 200);
     }
 }
