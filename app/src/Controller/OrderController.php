@@ -37,7 +37,6 @@ class OrderController extends AbstractController
         ]);
         return $this->json($orders);
     }
-
     #[Route('/api/orders/{id}', name: 'app_order_id', methods: ['GET'])]
     public function getOrder(EntityManagerInterface $entityManager, int $id): Response
     {

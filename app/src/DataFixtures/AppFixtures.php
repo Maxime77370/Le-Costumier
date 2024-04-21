@@ -18,6 +18,8 @@ class AppFixtures extends Fixture
         $user->setLogin('admin');
         $user->setPassword('admin');
         $user->setEmail('admin@test.com');
+        $user->setFirstname('Admine');
+        $user->setLastname('Matué');
         $user->setRoles(['ROLE_ADMIN']);
         $user->setCart($cart);
         $manager->persist($user);
