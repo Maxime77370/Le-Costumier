@@ -37,14 +37,14 @@ class AppFixtures extends Fixture
         $manager->persist($cart);
 
         
-        for ($i = 0; $i < 10; $i++) {
-            $product = new Product();
-            $product->setName('Product ' . ($i + 1));
-            $product->setDescription('Description for product ' . ($i + 1));
-            $product->setPhoto("https://picsum.photos/200");
-            $product->setPrice(rand(10, 100));
-            $manager->persist($product);
-        }
+        // for ($i = 0; $i < 10; $i++) {
+        //     $product = new Product();
+        //     $product->setName('Product ' . ($i + 1));
+        //     $product->setDescription('Description for product ' . ($i + 1));
+        //     $product->setPhoto("https://picsum.photos/200");
+        //     $product->setPrice(rand(10, 100));
+        //     $manager->persist($product);
+        // }
 
         $manager->flush();
     }

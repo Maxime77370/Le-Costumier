@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\Category;
 use App\Repository\ProductRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 
 
 
@@ -66,7 +68,7 @@ class ProductController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
 
-        $requiredFields = ['name', 'description', 'price', 'photo'];
+        $requiredFields = ['name', 'description', 'price', 'photo', 'categories'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {
                 return new JsonResponse([
@@ -86,6 +88,10 @@ class ProductController extends AbstractController
         $product->setDescription($data['description']);
         $product->setPrice($data['price']);
         $product->setPhoto($data['photo']);
+        foreach ($data['categories'] as $category) {
+            $category = $entityManager->getRepository(Category::class)->find($category);
+            $product->addCategory($category);
+        }
 
         $entityManager->persist($product);
         $entityManager->flush();
@@ -94,6 +100,33 @@ class ProductController extends AbstractController
             'message' => 'Product created successfully',
         ], 201);
     }
+
+    #[Route('/api/products/{id}/categories/{categories_id}', name: 'app_product_categories_add', methods: ['PUT'])]
+    public function addProductCategory(int $id, int $categories_id, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $decodedToken = $this->jwtManager->decode($this->tokenStorageInterface->getToken());
+        // check if the user has the role ROLE_ADMIN
+        if (!in_array('ROLE_ADMIN', $decodedToken['roles'])) {
+            return new JsonResponse(['error' => 'You are not allowed to add a category to a product'], Response::HTTP_FORBIDDEN);
+        }
+
+        $product = $entityManager->getRepository(Product::class)->find($id);
+        if (!$product) {
+            return new JsonResponse(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $category = $entityManager->getRepository(Category::class)->find($categories_id);
+        if (!$category) {
+            return new JsonResponse(['error' => 'Category not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $product->addCategory($category);
+        $entityManager->persist($product);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Category added to product successfully'], Response::HTTP_OK);
+    }
+
 
     #[Route('/api/products/{id}', name: 'app_product_update', methods: ['PUT'])]
     public function updateProduct(int $id, Request $request, EntityManagerInterface $entityManager): JsonResponse
@@ -153,6 +186,32 @@ class ProductController extends AbstractController
         ], 200);
     }
     
+    #[Route('/api/products/{id}/categories/{categories_id}', name: 'app_product_categories_delete', methods: ['DELETE'])]
+    public function deleteProductCategory(int $id, int $categories_id, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $decodedToken = $this->jwtManager->decode($this->tokenStorageInterface->getToken());
+        // check if the user has the role ROLE_ADMIN
+        if (!in_array('ROLE_ADMIN', $decodedToken['roles'])) {
+            return new JsonResponse(['error' => 'You are not allowed to delete a category from a product'], Response::HTTP_FORBIDDEN);
+        }
+
+        $product = $entityManager->getRepository(Product::class)->find($id);
+        if (!$product) {
+            return new JsonResponse(['error' => 'Product not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $category = $entityManager->getRepository(Category::class)->find($categories_id);
+        if (!$category) {
+            return new JsonResponse(['error' => 'Category not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $product->removeCategory($category);
+        $entityManager->persist($product);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Category deleted from product successfully'], Response::HTTP_OK);
+    }
+
     #[Route('/api/products/{id}', name: 'app_product_delete', methods: ['DELETE'])]
     public function deleteProduct(int $id, EntityManagerInterface $entityManager): JsonResponse
     {
