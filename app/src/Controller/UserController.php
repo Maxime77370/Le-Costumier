@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Cart;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -70,6 +71,11 @@ class UserController extends AbstractController
 
         // Persist the user entity
         $entityManager->persist($user);
+
+        $cart = new Cart();
+        $cart->setOwner($user);
+        $entityManager->persist($cart);
+
         $entityManager->flush();
 
         return new JsonResponse([

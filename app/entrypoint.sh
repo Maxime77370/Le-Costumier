@@ -7,7 +7,7 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
     php bin/console doctrine:database:drop --force 
     php bin/console doctrine:database:create  
     php bin/console doctrine:schema:update --force
-    
+    php bin/console doctrine:fixtures:load --no-interaction
     # JWT keys
     php bin/console lexik:jwt:generate-keypair
 fi

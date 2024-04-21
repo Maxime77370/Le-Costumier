@@ -46,7 +46,7 @@ security:
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
         - { path: ^/api/products, methods: GET, roles: PUBLIC_ACCESS }
-        - { path: ^/api/products/[0-9]+, methods: GET, roles: PUBLIC_ACCESS }
+        - { path: ^/api/products/[0-9]+, methods: GET, roles: PUBLIC_ACCESS } 
 
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
