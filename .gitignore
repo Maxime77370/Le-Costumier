@@ -1,1 +1,3 @@
 .DS_Store
+postgres_data
+DOCKER_ALREADY_STARTED_PLACEHOLDER
