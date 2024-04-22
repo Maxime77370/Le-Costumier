@@ -10,6 +10,7 @@ export const Route = createFileRoute('/_layout/')({
 function Index() {
   return (
     <div className='mt-2'>
+      <h2 className='mb-2 mt-4 text-2xl font-semibold'>Featured Products</h2>
       <ProductCarousel products={fakeProducts} />
     </div>
   )

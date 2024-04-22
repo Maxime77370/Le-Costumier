@@ -1,4 +1,6 @@
 import { Product } from 'types/product'
+import { Category } from 'types/category'
+import { icons } from 'lucide-react'
 
 export const fakeProducts: Product[] = [
   {
@@ -14,11 +16,13 @@ export const fakeProducts: Product[] = [
         name: 'Costumes',
         image: 'https://via.placeholder.com/200x200.png',
         color: '#000000',
+        icon: 'https://via.placeholder.com/200x200.png',
         parentCategory: {
           id: '2',
           name: 'Vêtements',
           image: 'https://via.placeholder.com/200x200.png',
-          color: '#000000'
+          color: '#000000',
+          icon: 'https://via.placeholder.com/200x200.png',
         }
       }
     ]
@@ -36,11 +40,13 @@ export const fakeProducts: Product[] = [
         name: 'Pantalons',
         image: 'https://via.placeholder.com/200x200.png',
         color: '#003366',
+        icon: 'https://via.placeholder.com/200x200.png',
         parentCategory: {
           id: '2',
           name: 'Vêtements',
           image: 'https://via.placeholder.com/200x200.png',
-          color: '#000000'
+          color: '#000000',
+          icon: 'https://via.placeholder.com/200x200.png',
         }
       }
     ]
@@ -58,11 +64,13 @@ export const fakeProducts: Product[] = [
         name: 'Chemises',
         image: 'https://via.placeholder.com/200x200.png',
         color: '#990000',
+        icon: 'https://via.placeholder.com/200x200.png',
         parentCategory: {
           id: '2',
           name: 'Vêtements',
           image: 'https://via.placeholder.com/200x200.png',
-          color: '#000000'
+          color: '#000000',
+          icon: 'https://via.placeholder.com/200x200.png',
         }
       }
     ]
@@ -80,11 +88,13 @@ export const fakeProducts: Product[] = [
         name: 'Accessoires',
         image: 'https://via.placeholder.com/200x200.png',
         color: '#660066',
+        icon: 'https://via.placeholder.com/200x200.png',
         parentCategory: {
           id: '6',
           name: 'Accessoires de mode',
           image: 'https://via.placeholder.com/200x200.png',
-          color: '#663399'
+          color: '#663399',
+          icon: 'https://via.placeholder.com/200x200.png',
         }
       }
     ]
@@ -102,13 +112,99 @@ export const fakeProducts: Product[] = [
         name: 'Chaussures',
         image: 'https://via.placeholder.com/200x200.png',
         color: '#000066',
+        icon: 'https://via.placeholder.com/200x200.png',
         parentCategory: {
           id: '8',
           name: 'Accessoires de mode',
           image: 'https://via.placeholder.com/200x200.png',
-          color: '#663399'
+          color: '#663399',
+          icon: 'https://via.placeholder.com/200x200.png',
         }
       }
     ]
   }
 ]
+
+export const fakeCategories: Category[] = [
+  {
+    id: '1',
+    name: 'Costumes',
+    image: 'https://via.placeholder.com/200x200.png',
+    color: '#000000',
+    subCategories: [],
+    icon : icons.Shirt,
+    parentCategory: {
+      id: '2',
+      name: 'Vêtements',
+      image: 'https://via.placeholder.com/200x200.png',
+      color: '#000000',
+      subCategories: [],
+      icon : icons.Shirt,
+    }
+  },
+  {
+    id: '3',
+    name: 'Pantalons',
+    image: 'https://via.placeholder.com/200x200.png',
+    color: '#003366',
+    subCategories: [],
+    icon : icons.Shirt,
+    parentCategory: {
+      id: '2',
+      name: 'Vêtements',
+      image: 'https://via.placeholder.com/200x200.png',
+      color: '#000000',
+      subCategories: [],
+      icon : icons.Shirt,
+    }
+  },
+  {
+    id: '4',
+    name: 'Chemises',
+    image: 'https://via.placeholder.com/200x200.png',
+    color: '#990000',
+    subCategories: [],
+    icon : icons.Shirt ,
+    parentCategory: {
+      id: '2',
+      name: 'Vêtements',
+      image: 'https://via.placeholder.com/200x200.png',
+      color: '#000000',
+      subCategories: [],
+      icon : icons.Shirt ,
+
+    }
+  },
+  {
+    id: '5',
+    name: 'Accessoires',
+    image: 'https://via.placeholder.com/200x200.png',
+    color: '#660066',
+    subCategories: [],
+    icon : icons.Shirt ,
+    parentCategory: {
+      icon : icons.Shirt,
+      id: '6',
+      name: 'Accessoires de mode',
+      image: 'https://via.placeholder.com/200x200.png',
+      color: '#663399',
+      subCategories: [],
+    }
+  },
+  {
+    id: '7',
+    name: 'Chaussures',
+    image: 'https://via.placeholder.com/200x200.png',
+    color: '#000066',
+    subCategories: [],
+    icon : icons.Shirt ,
+    parentCategory: {
+      id: '8',
+      name: 'Accessoires de mode',
+      image: 'https://via.placeholder.com/200x200.png',
+      color: '#663399',
+      subCategories: [],
+      icon : icons.Shirt,
+    }
+  }
+];
