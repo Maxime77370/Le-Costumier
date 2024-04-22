@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { ProductCategoriesBadge } from './product-categories-badge'
+import { ProductCategoriesBadge } from '../product-categories-badge'
 
 type ProductCardProps = {
   product: Product
