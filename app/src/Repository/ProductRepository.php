@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Product;
+use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,36 +22,42 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findAllOrderBy($field, $order): array
-    {
+    public function findByName($name) : array {
         return $this->createQueryBuilder('p')
-            ->orderBy('p.' . $field, $order)
+            ->select('p.id')
+            ->andWhere('p.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
             ->getQuery()
             ->getResult();
     }
-
-    //    /**
-    //     * @return Product[] Returns an array of Product objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Product
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findAllQuery($field, $order, $limit, $offset, $name, $category): array {
+        $query = $this->createQueryBuilder('p');
+        if ($name) {
+            $query->andWhere('p.name LIKE :name')
+                ->setParameter('name', '%' . $name . '%');
+        }
+        if ($field) {
+            $query->orderBy('p.' . $field, $order);
+        }
+        if ($limit) {
+            $query->setMaxResults($limit);
+        }
+        if ($offset) {
+            $query->setFirstResult($offset);
+        }
+        if ($category) {
+            $category = strtoupper($category);
+            $categoryQuery = $this->getEntityManager()->getRepository(Category::class)->findOneBy(["name" => $category]);
+            if (!$categoryQuery) {
+                return [];
+            }
+            $category = $categoryQuery->getId();
+            $query->addSelect('c')
+                ->leftJoin('p.category', 'c')
+                ->andWhere('c.id = :category')
+                ->setParameter('category', $category);
+        }
+        return $query->getQuery()
+            ->getResult();
+    }
 }
