@@ -18,6 +18,7 @@ function ProductCategoriesBadge({
         <Badge
           key={category.id}
           style={{ backgroundColor: category.color }}
+          className='text-white transition duration-300 ease-in-out hover:scale-110'
           onClick={() => console.log('Category:', category)} // Change for redirect to category page
         >
           {category.name}
