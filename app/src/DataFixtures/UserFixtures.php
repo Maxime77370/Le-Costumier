@@ -40,5 +40,7 @@ class UserFixtures extends Fixture {
 
         $user->setCart($cart);
         $manager->persist($user);
+
+        $manager->flush();
     }
 }
