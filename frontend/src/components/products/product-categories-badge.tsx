@@ -13,7 +13,7 @@ function ProductCategoriesBadge({
   className
 }: ProductCategoriesBadgeProps) {
   return (
-    <div className={cn('flex gap-x-2', className)}>
+    <div className={cn('flex w-fit justify-between gap-2', className)}>
       {product.categories.map(category => (
         <Badge
           key={category.id}

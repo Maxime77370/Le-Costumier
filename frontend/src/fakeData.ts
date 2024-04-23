@@ -24,6 +24,20 @@ export const fakeProducts: Product[] = [
           color: '#000000',
           icon: 'https://via.placeholder.com/200x200.png',
         }
+      },
+      {
+        id: '9',
+        name: 'Laine',
+        image: 'https://via.placeholder.com/200x200.png',
+        color: '#000066',
+        icon: 'https://via.placeholder.com/200x200.png',
+        parentCategory: {
+          id: '10',
+          name: 'Matières',
+          image: 'https://via.placeholder.com/200x200.png',
+          color: '#663399',
+          icon: 'https://via.placeholder.com/200x200.png',
+        }
       }
     ]
   },
@@ -132,14 +146,14 @@ export const fakeCategories: Category[] = [
     image: 'https://via.placeholder.com/200x200.png',
     color: '#000000',
     subCategories: [],
-    icon : icons.Shirt,
+    icon: icons.Shirt,
     parentCategory: {
       id: '2',
       name: 'Vêtements',
       image: 'https://via.placeholder.com/200x200.png',
       color: '#000000',
       subCategories: [],
-      icon : icons.Shirt,
+      icon: icons.Shirt,
     }
   },
   {
@@ -148,14 +162,14 @@ export const fakeCategories: Category[] = [
     image: 'https://via.placeholder.com/200x200.png',
     color: '#003366',
     subCategories: [],
-    icon : icons.Shirt,
+    icon: icons.Shirt,
     parentCategory: {
       id: '2',
       name: 'Vêtements',
       image: 'https://via.placeholder.com/200x200.png',
       color: '#000000',
       subCategories: [],
-      icon : icons.Shirt,
+      icon: icons.Shirt,
     }
   },
   {
@@ -164,14 +178,14 @@ export const fakeCategories: Category[] = [
     image: 'https://via.placeholder.com/200x200.png',
     color: '#990000',
     subCategories: [],
-    icon : icons.Shirt ,
+    icon: icons.Shirt,
     parentCategory: {
       id: '2',
       name: 'Vêtements',
       image: 'https://via.placeholder.com/200x200.png',
       color: '#000000',
       subCategories: [],
-      icon : icons.Shirt ,
+      icon: icons.Shirt,
 
     }
   },
@@ -181,9 +195,9 @@ export const fakeCategories: Category[] = [
     image: 'https://via.placeholder.com/200x200.png',
     color: '#660066',
     subCategories: [],
-    icon : icons.Shirt ,
+    icon: icons.Shirt,
     parentCategory: {
-      icon : icons.Shirt,
+      icon: icons.Shirt,
       id: '6',
       name: 'Accessoires de mode',
       image: 'https://via.placeholder.com/200x200.png',
@@ -197,10 +211,58 @@ export const fakeCategories: Category[] = [
     image: 'https://via.placeholder.com/200x200.png',
     color: '#000066',
     subCategories: [],
-    icon : icons.Shirt ,
+    icon: icons.Shirt,
     parentCategory: {
       id: '8',
       name: 'Accessoires de mode',
+      image: 'https://via.placeholder.com/200x200.png',
+      color: '#663399',
+      subCategories: [],
+      icon: icons.Shirt,
+    }
+  },
+  {
+    id: '9',
+    name: 'Laine',
+    image: 'https://via.placeholder.com/200x200.png',
+    color: '#000066',
+    subCategories: [],
+    icon : icons.Shirt ,
+    parentCategory: {
+      id: '10',
+      name: 'Matières',
+      image: 'https://via.placeholder.com/200x200.png',
+      color: '#663399',
+      subCategories: [],
+      icon : icons.Shirt,
+    }
+  },
+  {
+    id: '11',
+    name: 'Coton',
+    image: 'https://via.placeholder.com/200x200.png',
+    color: '#000066',
+    subCategories: [],
+    icon : icons.Shirt ,
+    parentCategory: {
+      id: '10',
+      name: 'Matières',
+      image: 'https://via.placeholder.com/200x200.png',
+      color: '#663399',
+      subCategories: [],
+      icon : icons.Shirt,
+    }
+  },
+  {
+    id: '12',
+    name: 'Soie',
+    image: 'https://via.placeholder.com/200x200.png',
+    color: '#000066',
+    subCategories: [],
+    icon : icons.Shirt ,
+    parentCategory: {
+      id: '10',
+      name: 'Matières',
       image: 'https://via.placeholder.com/200x200.png',
       color: '#663399',
       subCategories: [],
