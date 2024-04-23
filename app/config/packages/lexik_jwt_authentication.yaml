@@ -16,8 +16,8 @@ lexik_jwt_authentication:
             name: Authorization
         cookie:
             enabled: true
-            name: BEARER
+            name: access_token
     
     set_cookies:
-        BEARER: ~
+        access_token: ~
     remove_token_from_body_when_cookies_used: true
