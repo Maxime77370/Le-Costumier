@@ -13,11 +13,12 @@ function ProductCategoriesBadge({
   className
 }: ProductCategoriesBadgeProps) {
   return (
-    <div className={cn('flex gap-x-2', className)}>
+    <div className={cn('flex w-fit justify-between gap-2', className)}>
       {product.categories.map(category => (
         <Badge
           key={category.id}
           style={{ backgroundColor: category.color }}
+          className='text-white transition duration-300 ease-in-out hover:scale-110'
           onClick={() => console.log('Category:', category)} // Change for redirect to category page
         >
           {category.name}
