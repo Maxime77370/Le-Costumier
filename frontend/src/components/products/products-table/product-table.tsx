@@ -1,5 +1,6 @@
 import { Product } from 'types/product'
 
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -23,6 +24,7 @@ function ProductTable({ products }: ProductTableProps) {
         <TableCell>Description</TableCell>
         <TableCell className='text-center'>Categories</TableCell>
         <TableCell>Price</TableCell>
+        <TableCell className='text-center'>Actions</TableCell>
       </TableHeader>
       <TableBody>
         {products.map(product => (
@@ -42,6 +44,13 @@ function ProductTable({ products }: ProductTableProps) {
               </div>
             </TableCell>
             <TableCell>${product.price}</TableCell>
+            <TableCell className='p-2 text-center align-middle'>
+              <div className='flex justify-center'>
+                <Button variant='secondary' size='sm'>
+                  Add to cart
+                </Button>
+              </div>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
