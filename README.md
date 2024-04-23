@@ -54,6 +54,14 @@ Request exemple:
 ### Products
 
 `GET /api/products` - Gets all products
+Can use query parameters to filter the results:
+- `name` - Filter by name
+- `category` - Filter by category
+- `price` - Filter by price
+- `limit` - Limit the number of results
+- `offset` - Offset the results
+- `sort` - Sort the results by a field
+- `order` - Order the results by ascending or descending
 
 `GET /api/products/{productId}` - Gets a product's information
 

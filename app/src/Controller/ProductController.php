@@ -40,8 +40,21 @@ class ProductController extends AbstractController
     #[Route('/api/products', name: 'app_product', methods: ['GET'])]
     public function getAllProducts(ProductRepository $productRepository, SerializerInterface $serializer, Request $request ): JsonResponse
     {
-        $field = $request->query->get('orderByField');
+        $field = $request->query->get('sort');
         $order = $request->query->get('order');
+        $limit = $request->query->get('limit');
+        $offset = $request->query->get('offset');
+        $name = $request->query->get('name');
+        $category = $request->query->get('category');
+
+        if ($field) {
+            $allowedFields = ['name', 'price'];
+            if (!in_array($field, $allowedFields)) {
+                return new JsonResponse([
+                    'error' => 'Invalid field'
+                ], 400);
+            }
+        }
 
         if ($field) {
             $allowedFields = ['name', 'price'];
@@ -61,14 +74,30 @@ class ProductController extends AbstractController
                     ], 400);
                 }
             }
-            
-            $productList = $productRepository->findAllOrderBy($field, $order);
-        } else {
-            $productList = $productRepository->findAll();
         }
-
-        $jsonBookList = $serializer->serialize($productList, 'json');
-        return new JsonResponse($jsonBookList, 200, [], true);
+        if ($offset) {
+            if (!is_numeric($offset)) {
+                return new JsonResponse([
+                    'error' => 'Invalid offset'
+                    ], 400);
+            }
+        }
+        if ($limit) {
+            if (!is_numeric($limit)) {
+                return new JsonResponse([
+                    'error' => 'Invalid limit'
+                ], 400);
+            }
+        }
+        $queryResults = $productRepository->findAllQuery($field, $order, $limit, $offset, $name, $category);
+        if ($limit) {
+            $result = ['nodes' => $queryResults, 'total' => count($productRepository->findByName($name))];
+            $resultJson = $serializer->serialize($result, 'json');
+        } else {
+            $resultJson = $serializer->serialize($queryResults, 'json');
+        }
+        
+        return new JsonResponse($resultJson, 200, [], true);
     }
 
     #[Route('/api/products/{id}', name: 'app_product_show', methods: ['GET'])]
