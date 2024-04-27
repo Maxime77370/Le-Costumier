@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { set } from 'react-hook-form'
 import { Product } from 'types/product'
 
 import { Button } from '@/components/ui/button'
@@ -16,13 +18,31 @@ type ProductTableProps = {
 }
 
 function ProductTable({ products }: ProductTableProps) {
+  const [hideDescription, setHideDescription] = useState(false)
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth < 768) {
+      setHideDescription(true)
+    } else {
+      setHideDescription(false)
+    }
+  })
+
+  if (!products) {
+    return <div>No products found</div>
+  }
+
   return (
     <Table>
       <TableCaption>Products</TableCaption>
       <TableHeader>
         <TableCell>Name</TableCell>
-        <TableCell>Description</TableCell>
-        <TableCell className='text-center'>Categories</TableCell>
+        {!hideDescription && (
+          <>
+            <TableCell>Description</TableCell>
+            <TableCell className='text-center'>Categories</TableCell>
+          </>
+        )}
         <TableCell>Price</TableCell>
         <TableCell className='text-center'>Actions</TableCell>
       </TableHeader>
@@ -37,12 +57,18 @@ function ProductTable({ products }: ProductTableProps) {
               />
               {product.name}
             </TableCell>
-            <TableCell>{product.description}</TableCell>
-            <TableCell className='p-2 text-center align-middle'>
-              <div className='flex justify-center'>
-                <ProductCategoriesBadge product={product} />
-              </div>
-            </TableCell>
+            {!hideDescription && (
+              <>
+                <TableCell className='overflow-x-auto '>
+                  {product.description}
+                </TableCell>
+                <TableCell className='p-2 text-center align-middle'>
+                  <div className='flex justify-center'>
+                    <ProductCategoriesBadge product={product} />
+                  </div>
+                </TableCell>
+              </>
+            )}
             <TableCell>${product.price}</TableCell>
             <TableCell className='p-2 text-center align-middle'>
               <div className='flex justify-center'>
