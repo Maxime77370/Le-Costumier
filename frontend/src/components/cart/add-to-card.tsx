@@ -5,11 +5,13 @@ type AddToCartProps = {
 }
 
 function AddToCart({ productId }: AddToCartProps) {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    console.log('Add to cart', productId)
+  }
+
   return (
-    <Button
-      onClick={() => console.log('Add to cart', productId)}
-      variant='secondary'
-    >
+    <Button onClick={handleClick} variant='secondary'>
       Add to cart
     </Button>
   )
