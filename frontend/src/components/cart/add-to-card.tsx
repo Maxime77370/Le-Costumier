@@ -6,6 +6,7 @@ type AddToCartProps = {
 
 function AddToCart({ productId }: AddToCartProps) {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation()
     event.preventDefault()
     console.log('Add to cart', productId)
   }

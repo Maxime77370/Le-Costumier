@@ -3,6 +3,7 @@ import { Category } from 'types/category'
 import { Product } from 'types/product'
 
 import { ProductCard } from '@/components/products/product-card-horizontal'
+import { ProductCardList } from '@/components/products/product-card-list/products-card-list'
 import { ProductCarousel } from '@/components/products/products-carousel/product-carousel'
 import { fakeProducts } from '@/fakeData'
 
@@ -23,16 +24,31 @@ function ProductID() {
           product.categories[0].name.toLowerCase()
       )
   )
+  const otherProducts = fakeProducts.filter(
+    (p: Product) =>
+      product &&
+      p.id !== product.id && // Vérifier que l'ID du produit est différent
+      !p.categories.some(
+        (category: Category) =>
+          category.name.toLowerCase() ===
+          product.categories[0].name.toLowerCase()
+      )
+  )
 
   return (
-    <div className='mt-4 flex flex-col items-center'>
+    <div className='flex flex-col items-center'>
       {product ? (
-        <ProductCard product={product} className='w-2/3' />
+        <>
+          <span className='mt-4 text-2xl font-semibold'>Product</span>
+          <ProductCard product={product} className='mt-4 w-2/3' />
+          <span className='mt-4 text-2xl font-semibold'>Related Products</span>
+          <ProductCarousel products={relatedProducts} className='mt-4 w-3/4' />
+        </>
       ) : (
         <h1>Product not found</h1>
       )}
-      <span className='mt-4 text-2xl font-semibold'>Related Products</span>
-      <ProductCarousel products={relatedProducts} className='mt-4 w-3/4' />
+      <span className='mt-4 text-2xl font-semibold'>Other Products</span>
+      <ProductCardList products={otherProducts} className='mt-4 w-3/4' />
     </div>
   )
 }
