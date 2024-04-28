@@ -1,6 +1,6 @@
 import { Product } from 'types/product'
 
-import { ProductCard } from '@/components/products/products-carousel/product-card'
+import { ProductCard } from '@/components/products/product-card'
 import {
   Carousel,
   CarouselContent,
