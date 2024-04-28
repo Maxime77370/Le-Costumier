@@ -1,6 +1,6 @@
 import { Product } from 'types/product'
 
-import { Button } from '@/components/ui/button'
+import { AddToCart } from '@/components/cart/add-to-card'
 import {
   Card,
   CardContent,
@@ -36,10 +36,7 @@ function ProductCard({ product, className }: ProductCardProps) {
               currency: 'USD'
             })}
           </span>
-
-          <Button variant='secondary' size='sm'>
-            Add to cart
-          </Button>
+          <AddToCart productId={product.id} />
         </div>
       </CardContent>
     </Card>

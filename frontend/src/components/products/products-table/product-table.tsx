@@ -1,6 +1,6 @@
 import { Product } from 'types/product'
 
-import { Button } from '@/components/ui/button'
+import { AddToCart } from '@/components/cart/add-to-card'
 import {
   Table,
   TableBody,
@@ -46,9 +46,7 @@ function ProductTable({ products }: ProductTableProps) {
             <TableCell>${product.price}</TableCell>
             <TableCell className='p-2 text-center align-middle'>
               <div className='flex justify-center'>
-                <Button variant='secondary' size='sm'>
-                  Add to cart
-                </Button>
+                <AddToCart productId={product.id} />
               </div>
             </TableCell>
           </TableRow>
