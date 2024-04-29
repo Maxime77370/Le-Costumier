@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import { Product } from 'types/product'
 
-import { Button } from '@/components/ui/button'
+import { AddToCart } from '@/components/cart/add-to-card'
 import {
   Table,
   TableBody,
@@ -14,6 +15,7 @@ import { ProductCategoriesBadge } from '../product-categories-badge'
 
 type ProductTableProps = {
   products: Product[]
+  className?: string
 }
 
 function ProductTable({ products }: ProductTableProps) {
@@ -31,8 +33,17 @@ function ProductTable({ products }: ProductTableProps) {
     return <div>No products found</div>
   }
 
+function ProductTable({ products, className }: ProductTableProps) {
+  const navigate = useNavigate({ from: '/products/$productId' })
+  const handleRowClick = (productId: string) => {
+    navigate({
+      to: `/products/$productId`,
+      params: { productId }
+    })
+  }
+
   return (
-    <Table>
+    <Table className={className}>
       <TableCaption>Products</TableCaption>
       <TableHeader>
         <TableCell>Name</TableCell>
@@ -47,7 +58,7 @@ function ProductTable({ products }: ProductTableProps) {
       </TableHeader>
       <TableBody>
         {products.map(product => (
-          <TableRow key={product.id}>
+          <TableRow key={product.id} onClick={() => handleRowClick(product.id)}>
             <TableCell className='flex items-center'>
               <img
                 src={product.image}
@@ -71,9 +82,7 @@ function ProductTable({ products }: ProductTableProps) {
             <TableCell>${product.price}</TableCell>
             <TableCell className='p-2 text-center align-middle'>
               <div className='flex justify-center'>
-                <Button variant='secondary' size='sm'>
-                  Add to cart
-                </Button>
+                <AddToCart productId={product.id} />
               </div>
             </TableCell>
           </TableRow>

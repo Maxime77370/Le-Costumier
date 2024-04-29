@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router'
 import React, { useState } from 'react'
 
 import { CategoryNameIcon } from '@/components/categories/category-name-icon'
@@ -19,6 +20,7 @@ type SearchBarModalProps = {
 
 function SearchBarModal({ className }: SearchBarModalProps) {
   const [searchInput, setSearchInput] = useState('')
+  const productNavigate = useNavigate({ from: '/products/$productId' })
 
   const filteredCategories = fakeCategories.filter(category =>
     category.name.toLowerCase().includes(searchInput.toLowerCase())
@@ -36,6 +38,13 @@ function SearchBarModal({ className }: SearchBarModalProps) {
 
   const handleSearch = (query: string) => {
     setSearchInput(query)
+  }
+
+  const handleProductClick = (productId: string) => {
+    productNavigate({
+      to: `/products/$productId`,
+      params: { productId }
+    })
   }
 
   return (
@@ -72,6 +81,7 @@ function SearchBarModal({ className }: SearchBarModalProps) {
                 product.name +
                 product.categories.map(category => category.name).join(' ')
               }
+              onSelect={() => handleProductClick(product.id)}
             >
               {product.name}
               <ProductCategoriesBadge product={product} className='ml-2' />
