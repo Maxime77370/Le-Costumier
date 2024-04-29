@@ -1,3 +1,4 @@
+import { useState } from 'react' // Importer useState pour gérer l'état du zoom
 import { Product } from 'types/product'
 
 import { AddToCart } from '@/components/cart/add-to-card'
@@ -16,10 +17,26 @@ type ProductCardProps = {
 }
 
 function ProductCard({ product, className }: ProductCardProps) {
+  const [isHovered, setIsHovered] = useState(false)
   return (
-    <Card className={className}>
-      <CardHeader className='p-0'>
-        <img src={product.image} alt={product.name} />
+    <Card
+      // eslint-disable-next-line tailwindcss/no-custom-classname
+      className={
+        className +
+        (isHovered
+          ? ' hover-background-shining-on '
+          : ' hover-background_shining-off')
+      }
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <CardHeader className='overflow-hidden p-0'>
+        <img
+          src={product.image}
+          alt={product.name}
+          // eslint-disable-next-line tailwindcss/no-custom-classname
+          className={isHovered ? 'hover-zoom-on' : 'hover-zoom-off'}
+        />
       </CardHeader>
 
       <CardContent className='space-y-1 pt-4'>
