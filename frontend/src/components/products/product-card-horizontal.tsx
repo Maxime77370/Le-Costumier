@@ -23,7 +23,11 @@ function ProductCard({ product, className }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Link to={`/products/${product.id}`} className={className}>
+    <Link
+      to={`/products/${product.id}`}
+      className={className}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+    >
       <Card
         className={
           ' grid grid-cols-3 grid-rows-1' +

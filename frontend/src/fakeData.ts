@@ -327,5 +327,3 @@ export const fakeProducts: Product[] = [
     ]
   }
 ]
-
-console.log(fakeProducts)
