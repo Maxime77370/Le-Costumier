@@ -124,7 +124,7 @@ class UserController extends AbstractController
                 break;
             }
         }
-        if (!$notEmpty) {
+        if ($notEmpty) {
             return new JsonResponse([
                 'error'=> 'At least one field is required'
             ], 400);
