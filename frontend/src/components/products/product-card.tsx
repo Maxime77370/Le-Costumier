@@ -11,6 +11,8 @@ import {
 } from '@/components/ui/card'
 import { ProductCategoriesBadge } from './product-categories-badge'
 
+import './product.css' // Importer le fichier CSS pour le zoom
+
 type ProductCardProps = {
   product: Product
   className?: string

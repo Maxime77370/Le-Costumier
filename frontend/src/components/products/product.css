@@ -12,10 +12,10 @@
 
 .hover-background-shining-on {
     background: hsl(var(--secondary)) !important;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .hover-background-shining-off {
     background: hsl(var(--card)) !important;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
 }
