@@ -10,7 +10,7 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({ category }) => {
 
   return (
     <div className='flex items-center'>
-      {Icon && <Icon className='mr-2 h-4 w-4' />}
+      {Icon && <Icon className='mr-2 size-4' />}
     </div>
   )
 }

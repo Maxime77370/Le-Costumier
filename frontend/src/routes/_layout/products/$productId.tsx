@@ -1,4 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { icons } from 'lucide-react'
 import { Category } from 'types/category'
 import { Product } from 'types/product'
 
@@ -35,31 +36,41 @@ function ProductID() {
       )
     : fakeProducts
 
+  const backNavigation = useNavigate({ from: '/products/$productId' })
+
   return (
-    <div className='flex flex-col items-center'>
-      {product ? (
-        <>
-          <span className='mt-4 text-2xl font-semibold'>Product</span>
-          <ProductCard product={product} className='mt-4 w-2/3' />
-          {relatedProducts.length !== 0 ? (
-            <>
-              <span className='mt-4 text-2xl font-semibold'>
-                Related Products
-              </span>
-              <ProductCarousel
-                products={relatedProducts}
-                className='mt-4 w-3/4'
-              />
-            </>
-          ) : (
-            <></>
-          )}
-        </>
-      ) : (
-        <span className='mt-4 text-xl font-semibold'>Product not found</span>
-      )}
-      <span className='mt-4 text-2xl font-semibold'>Other Products</span>
-      <ProductCardList products={otherProducts} className='mt-4 w-3/4' />
-    </div>
+    <>
+      <icons.ArrowLeft
+        className='absolute left-0 top-0 ml-4 mt-4 cursor-pointer
+      '
+        size={24}
+        onClick={() => backNavigation({ to: '/products' })}
+      />
+      <div className='flex flex-col items-center'>
+        {product ? (
+          <>
+            <span className='mt-4 text-2xl font-semibold'>Product</span>
+            <ProductCard product={product} className='mt-4 w-2/3' />
+            {relatedProducts.length !== 0 ? (
+              <>
+                <span className='mt-4 text-2xl font-semibold'>
+                  Related Products
+                </span>
+                <ProductCarousel
+                  products={relatedProducts}
+                  className='mt-4 w-3/4'
+                />
+              </>
+            ) : (
+              <></>
+            )}
+          </>
+        ) : (
+          <span className='mt-4 text-xl font-semibold'>Product not found</span>
+        )}
+        <span className='mt-4 text-2xl font-semibold'>Other Products</span>
+        <ProductCardList products={otherProducts} className='mt-4 w-3/4' />
+      </div>
+    </>
   )
 }

@@ -23,7 +23,11 @@ function ProductCard({ product, className }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <Link to={`/products/${product.id}`} className={className}>
+    <Link
+      to={`/products/${product.id}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className={className}
+    >
       <Card
         // eslint-disable-next-line tailwindcss/no-custom-classname
         className={

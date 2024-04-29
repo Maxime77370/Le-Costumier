@@ -34,10 +34,15 @@ function ProductTable({ products, className }: ProductTableProps) {
       to: `/products/$productId`,
       params: { productId }
     })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  if (!products) {
-    return <div>No products found</div>
+  if (products.length === 0) {
+    return (
+      <span className='mt-4 text-center text-gray-500 '>
+        No products found.
+      </span>
+    )
   }
 
   return (
