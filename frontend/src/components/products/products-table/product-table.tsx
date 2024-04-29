@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router'
 import { Product } from 'types/product'
 
 import { AddToCart } from '@/components/cart/add-to-card'
@@ -13,11 +14,19 @@ import { ProductCategoriesBadge } from '../product-categories-badge'
 
 type ProductTableProps = {
   products: Product[]
+  className?: string
 }
 
-function ProductTable({ products }: ProductTableProps) {
+function ProductTable({ products, className }: ProductTableProps) {
+  const navigate = useNavigate({ from: '/products/$productId' })
+  const handleRowClick = (productId: string) => {
+    navigate({
+      to: `/products/$productId`,
+      params: { productId }
+    })
+  }
   return (
-    <Table>
+    <Table className={className}>
       <TableCaption>Products</TableCaption>
       <TableHeader>
         <TableCell>Name</TableCell>
@@ -28,7 +37,7 @@ function ProductTable({ products }: ProductTableProps) {
       </TableHeader>
       <TableBody>
         {products.map(product => (
-          <TableRow key={product.id}>
+          <TableRow key={product.id} onClick={() => handleRowClick(product.id)}>
             <TableCell className='flex items-center'>
               <img
                 src={product.image}

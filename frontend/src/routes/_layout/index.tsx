@@ -13,8 +13,8 @@ function Index() {
   return (
     <div className='mt-2'>
       <h2 className='mb-2 mt-4 text-2xl font-semibold'>Featured Products</h2>
-      <ProductCarousel products={fakeProducts} />
-      <ProductTable products={fakeProducts} />
+      <ProductCarousel products={fakeProducts} className='mx-auto w-3/4' />
+      <ProductTable products={fakeProducts} className='mx-auto w-3/4' />
       <ProductCardList products={fakeProducts} className='mx-auto w-2/3' />
     </div>
   )
