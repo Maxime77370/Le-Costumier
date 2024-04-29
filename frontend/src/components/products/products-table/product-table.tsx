@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
 import { Product } from 'types/product'
 
 import { AddToCart } from '@/components/cart/add-to-card'
@@ -18,7 +18,7 @@ type ProductTableProps = {
   className?: string
 }
 
-function ProductTable({ products }: ProductTableProps) {
+function ProductTable({ products, className }: ProductTableProps) {
   const [hideDescription, setHideDescription] = useState(false)
 
   window.addEventListener('resize', () => {
@@ -28,18 +28,16 @@ function ProductTable({ products }: ProductTableProps) {
       setHideDescription(false)
     }
   })
-
-  if (!products) {
-    return <div>No products found</div>
-  }
-
-function ProductTable({ products, className }: ProductTableProps) {
   const navigate = useNavigate({ from: '/products/$productId' })
   const handleRowClick = (productId: string) => {
     navigate({
       to: `/products/$productId`,
       params: { productId }
     })
+  }
+
+  if (!products) {
+    return <div>No products found</div>
   }
 
   return (

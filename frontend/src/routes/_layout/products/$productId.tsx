@@ -56,7 +56,7 @@ function ProductID() {
           )}
         </>
       ) : (
-        <span className='text-1xl mt-4 font-semibold'>Product not found</span>
+        <span className='mt-4 text-xl font-semibold'>Product not found</span>
       )}
       <span className='mt-4 text-2xl font-semibold'>Other Products</span>
       <ProductCardList products={otherProducts} className='mt-4 w-3/4' />
