@@ -1,8 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { Space } from 'lucide-react'
 
-import { ProductCardList } from '@/components/products/product-card-list/products-card-list'
 import { ProductCarousel } from '@/components/products/products-carousel/product-carousel'
-import { ProductTable } from '@/components/products/products-table/product-table'
+import { Button } from '@/components/ui/button'
 import { fakeProducts } from '@/fakeData'
 
 export const Route = createFileRoute('/_layout/')({
@@ -12,10 +12,19 @@ export const Route = createFileRoute('/_layout/')({
 function Index() {
   return (
     <div className='mt-2'>
-      <h2 className='mb-2 mt-4 text-2xl font-semibold'>Featured Products</h2>
-      <ProductCarousel products={fakeProducts} className='mx-auto w-3/4' />
-      <ProductTable products={fakeProducts} className='mx-auto w-3/4' />
-      <ProductCardList products={fakeProducts} className='mx-auto w-2/3' />
+      <Link
+        to='/products'
+        className='flex h-64 flex-col items-center justify-evenly'
+      >
+        <span className='font-bold text-5xl'>Le Costumier</span>
+        <Button>View All Products</Button>
+      </Link>
+      <div className='flex flex-col items-center'>
+        <ProductCarousel
+          products={fakeProducts}
+          className='mx-auto mt-4 w-3/4'
+        />
+      </div>
     </div>
   )
 }
