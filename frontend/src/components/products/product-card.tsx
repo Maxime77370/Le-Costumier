@@ -1,9 +1,7 @@
 import { useState } from 'react' // Importer useState pour gérer l'état du zoom
 import { Product } from 'types/product'
 
-import '../product.less' // Importer le fichier CSS pour le zoom
-
-import { Button } from '@/components/ui/button'
+import { AddToCart } from '@/components/cart/add-to-card'
 import {
   Card,
   CardContent,
@@ -11,7 +9,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { ProductCategoriesBadge } from '../product-categories-badge'
+import { ProductCategoriesBadge } from './product-categories-badge'
 
 type ProductCardProps = {
   product: Product
@@ -19,9 +17,7 @@ type ProductCardProps = {
 }
 
 function ProductCard({ product, className }: ProductCardProps) {
-  // État pour déterminer si la souris survole l'image
   const [isHovered, setIsHovered] = useState(false)
-
   return (
     <Card
       // eslint-disable-next-line tailwindcss/no-custom-classname
@@ -57,10 +53,7 @@ function ProductCard({ product, className }: ProductCardProps) {
               currency: 'USD'
             })}
           </span>
-
-          <Button variant='secondary' size='sm'>
-            Add to cart
-          </Button>
+          <AddToCart productId={product.id} />
         </div>
       </CardContent>
     </Card>
