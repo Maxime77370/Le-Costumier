@@ -20,7 +20,8 @@ type SearchBarModalProps = {
 
 function SearchBarModal({ className }: SearchBarModalProps) {
   const [searchInput, setSearchInput] = useState('')
-  const productNavigate = useNavigate({ from: '/products/$productId' })
+  const productIdNavigate = useNavigate({ from: '/products/$productId' })
+  const productNavigate = useNavigate({ from: '/products' })
 
   const filteredCategories = fakeCategories.filter(category =>
     category.name.toLowerCase().includes(searchInput.toLowerCase())
@@ -41,9 +42,16 @@ function SearchBarModal({ className }: SearchBarModalProps) {
   }
 
   const handleProductClick = (productId: string) => {
-    productNavigate({
+    productIdNavigate({
       to: `/products/$productId`,
       params: { productId }
+    })
+  }
+
+  const handleCategoryClick = (category: string) => {
+    productNavigate({
+      to: '/products',
+      search: { categories: category }
     })
   }
 
@@ -59,7 +67,11 @@ function SearchBarModal({ className }: SearchBarModalProps) {
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading='Category'>
           {filteredCategories.slice(0, 3).map(category => (
-            <CommandItem key={category.id} value={category.name}>
+            <CommandItem
+              key={category.id}
+              value={category.name}
+              onSelect={() => handleCategoryClick(category.name)}
+            >
               <CategoryNameIcon category={category} />
             </CommandItem>
           ))}
