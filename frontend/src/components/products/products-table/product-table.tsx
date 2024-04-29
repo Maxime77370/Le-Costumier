@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { Product } from 'types/product'
 
@@ -17,6 +18,21 @@ type ProductTableProps = {
   className?: string
 }
 
+function ProductTable({ products }: ProductTableProps) {
+  const [hideDescription, setHideDescription] = useState(false)
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth < 768) {
+      setHideDescription(true)
+    } else {
+      setHideDescription(false)
+    }
+  })
+
+  if (!products) {
+    return <div>No products found</div>
+  }
+
 function ProductTable({ products, className }: ProductTableProps) {
   const navigate = useNavigate({ from: '/products/$productId' })
   const handleRowClick = (productId: string) => {
@@ -25,13 +41,18 @@ function ProductTable({ products, className }: ProductTableProps) {
       params: { productId }
     })
   }
+
   return (
     <Table className={className}>
       <TableCaption>Products</TableCaption>
       <TableHeader>
         <TableCell>Name</TableCell>
-        <TableCell>Description</TableCell>
-        <TableCell className='text-center'>Categories</TableCell>
+        {!hideDescription && (
+          <>
+            <TableCell>Description</TableCell>
+            <TableCell className='text-center'>Categories</TableCell>
+          </>
+        )}
         <TableCell>Price</TableCell>
         <TableCell className='text-center'>Actions</TableCell>
       </TableHeader>
@@ -46,12 +67,18 @@ function ProductTable({ products, className }: ProductTableProps) {
               />
               {product.name}
             </TableCell>
-            <TableCell>{product.description}</TableCell>
-            <TableCell className='p-2 text-center align-middle'>
-              <div className='flex justify-center'>
-                <ProductCategoriesBadge product={product} />
-              </div>
-            </TableCell>
+            {!hideDescription && (
+              <>
+                <TableCell className='overflow-x-auto '>
+                  {product.description}
+                </TableCell>
+                <TableCell className='p-2 text-center align-middle'>
+                  <div className='flex justify-center'>
+                    <ProductCategoriesBadge product={product} />
+                  </div>
+                </TableCell>
+              </>
+            )}
             <TableCell>${product.price}</TableCell>
             <TableCell className='p-2 text-center align-middle'>
               <div className='flex justify-center'>
