@@ -1,3 +1,4 @@
+@import url("../../styles/globals.css") layer(base);
 
 .hover-zoom-on {
     transform: scale(1.1);
@@ -10,9 +11,11 @@
 }
 
 .hover-background-shining-on {
-    background-color: rgba(255, 255, 255, 0.5);
+    background: hsl(var(--secondary)) !important;
+    transition: background 0.3s ease;
 }
 
 .hover-background-shining-off {
-    background: none;
+    background: hsl(var(--card)) !important;
+    transition: background 0.3s ease;
 }
