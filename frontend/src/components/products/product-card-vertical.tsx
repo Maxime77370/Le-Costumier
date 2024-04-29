@@ -18,7 +18,7 @@ type ProductCardProps = {
 
 function ProductCard({ product, className }: ProductCardProps) {
   return (
-    <Link to={`/product/${product.id}`} className={className}>
+    <Link to={`/products/${product.id}`} className={className}>
       <Card>
         <CardHeader className='p-0'>
           <img src={product.image} alt={product.name} />

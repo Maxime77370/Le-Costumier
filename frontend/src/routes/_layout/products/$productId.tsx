@@ -7,7 +7,7 @@ import { ProductCardList } from '@/components/products/product-card-list/product
 import { ProductCarousel } from '@/components/products/products-carousel/product-carousel'
 import { fakeProducts } from '@/fakeData'
 
-export const Route = createFileRoute('/_layout/product/$productId')({
+export const Route = createFileRoute('/_layout/products/$productId')({
   component: ProductID
 })
 

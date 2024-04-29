@@ -20,7 +20,7 @@ type SearchBarModalProps = {
 
 function SearchBarModal({ className }: SearchBarModalProps) {
   const [searchInput, setSearchInput] = useState('')
-  const productNavigate = useNavigate({ from: '/product/$productId' })
+  const productNavigate = useNavigate({ from: '/products/$productId' })
 
   const filteredCategories = fakeCategories.filter(category =>
     category.name.toLowerCase().includes(searchInput.toLowerCase())
@@ -42,7 +42,7 @@ function SearchBarModal({ className }: SearchBarModalProps) {
 
   const handleProductClick = (productId: string) => {
     productNavigate({
-      to: `/product/$productId`,
+      to: `/products/$productId`,
       params: { productId }
     })
   }

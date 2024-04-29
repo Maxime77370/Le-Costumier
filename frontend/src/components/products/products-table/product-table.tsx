@@ -18,10 +18,10 @@ type ProductTableProps = {
 }
 
 function ProductTable({ products, className }: ProductTableProps) {
-  const navigate = useNavigate({ from: '/product/$productId' })
+  const navigate = useNavigate({ from: '/products/$productId' })
   const handleRowClick = (productId: string) => {
     navigate({
-      to: `/product/$productId`,
+      to: `/products/$productId`,
       params: { productId }
     })
   }
