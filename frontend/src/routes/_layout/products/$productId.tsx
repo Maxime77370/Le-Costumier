@@ -18,10 +18,8 @@ function ProductID() {
     (p: Product) =>
       product &&
       p.id !== product.id &&
-      p.categories.some(
-        (category: Category) =>
-          category.name.toLowerCase() ===
-          product.categories[0].name.toLowerCase()
+      p.categories.some((category: Category) =>
+        product.categories.includes(category)
       )
   )
 
