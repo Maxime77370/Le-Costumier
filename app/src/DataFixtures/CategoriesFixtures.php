@@ -11,20 +11,15 @@ class CategoriesFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $categories = ['Costume', 'Pantalon', 'Chemise', 'Chaussures', 'Pull', 'Cravate', 'Homme'];
-        $colors = [];
-        for ($i = 0; $i < 7; $i++) {
-            $red = mt_rand(150, 255);
-            $green = mt_rand(150, 255);
-            $blue = mt_rand(150, 255);
-            $color = sprintf('#%02x%02x%02x', $red, $green, $blue);
-            $colors[] = $color;
-        }
-    
-        for ($i = 0; $i < 7; $i++) {
+        $jsonData = file_get_contents(__DIR__ . '/categories.json');
+
+        $data = json_decode($jsonData, true);
+
+        foreach ($data as $item) {
             $category = new Category();
-            $category->setName(strtoupper($categories[$i]));
-            $category->setColor($colors[$i]);
+            $category->setName($item['name']);
+            $category->setColor($item['color']);
+
             $manager->persist($category);
         }
 

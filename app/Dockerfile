@@ -1,4 +1,12 @@
-FROM php:8.2-fpm-buster
+FROM python:alpine as fakeData
+
+WORKDIR /app
+COPY ./app/generateProducts.py /app/script.py
+
+RUN python /app/script.py
+
+
+FROM php:8.2-fpm-buster as base
 
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash
 
@@ -35,6 +43,9 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN composer install
 
 EXPOSE 8000
+
+COPY --from=fakeData /app/products.json /var/www/symfony/src/DataFixtures
+COPY --from=fakeData /app/categories.json /var/www/symfony/src/DataFixtures
 
 RUN chmod +x ./entrypoint.sh
 

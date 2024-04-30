@@ -16,7 +16,7 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 32)]
+    #[ORM\Column(length: 64)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]

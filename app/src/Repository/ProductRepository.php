@@ -46,7 +46,7 @@ class ProductRepository extends ServiceEntityRepository
             $query->setFirstResult($offset);
         }
         if ($categories) {
-            $query->join('p.category', 'c');
+            $query->join('p.categories', 'c');
             foreach($categories as $category) {
                 $category = strtoupper($category);
                 $categoryQuery = $this->getEntityManager()->getRepository(Category::class)->findOneBy(["name" => $category]);
@@ -54,8 +54,8 @@ class ProductRepository extends ServiceEntityRepository
                     return [$category];
                 }
                 $category = $categoryQuery->getId();
-                $query->andWhere('c.id = :category')
-                    ->setParameter('category', $category);
+                $query->andWhere('c.id = :categories')
+                    ->setParameter('categories', $category);
             }
         }
         return $query->getQuery()
