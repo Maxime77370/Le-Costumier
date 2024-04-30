@@ -32,11 +32,11 @@ class Product
      * @var Collection<int, Category>
      */
     #[ORM\ManyToMany(targetEntity: Category::class)]
-    private Collection $category;
+    private Collection $categories;
 
     public function __construct()
     {
-        $this->category = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,23 +95,23 @@ class Product
     /**
      * @return Collection<int, Category>
      */
-    public function getCategory(): Collection
+    public function getCategories(): Collection
     {
-        return $this->category;
+        return $this->categories;
     }
 
-    public function addCategory(Category $category): static
+    public function addCategory(Category $categories): static
     {
-        if (!$this->category->contains($category)) {
-            $this->category->add($category);
+        if (!$this->categories->contains($categories)) {
+            $this->categories->add($categories);
         }
 
         return $this;
     }
 
-    public function removeCategory(Category $category): static
+    public function removeCategory(Category $categories): static
     {
-        $this->category->removeElement($category);
+        $this->categories->removeElement($categories);
 
         return $this;
     }
