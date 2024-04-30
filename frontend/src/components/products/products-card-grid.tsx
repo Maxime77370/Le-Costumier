@@ -1,13 +1,13 @@
 import { Product } from 'types/product'
 
-import { ProductCard } from '@/components/products/product-card-vertical'
+import { ProductCard } from '@/components/products/product-card'
 
-type ProductCardListProps = {
+type ProductsCardGridProps = {
   products: Product[]
   className?: string
 }
 
-function ProductCardList({ products, className }: ProductCardListProps) {
+function ProductsCardGrid({ products, className }: ProductsCardGridProps) {
   if (products.length === 0) {
     return (
       <span className='mt-4 text-center text-gray-500'>No products found</span>
@@ -27,4 +27,4 @@ function ProductCardList({ products, className }: ProductCardListProps) {
   )
 }
 
-export { ProductCardList }
+export { ProductsCardGrid }

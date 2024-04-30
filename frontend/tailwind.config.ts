@@ -54,13 +54,13 @@ const config: Config = {
       },
       fontFamily: {
         black: ['Black'],
-        extraBold: ['ExtraBold'],
+        extrabold: ['ExtraBold'],
         bold: ['Bold'],
-        semiBold: ['SemiBold'],
+        semibold: ['SemiBold'],
         medium: ['Medium'],
         regular: ['Regular'],
         light: ['Light'],
-        extraLight: ['ExtraLight'],
+        extralight: ['ExtraLight'],
         thin: ['Thin']
       },
       keyframes: {
@@ -71,11 +71,19 @@ const config: Config = {
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' }
+        },
+        'slide-right': {
+          from: { width: '0' },
+          to: { width: '100%' }
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out'
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'slide-right': 'slide-right 0.5s ease-out'
+      },
+      transitionProperty: {
+        width: 'width'
       }
     }
   },

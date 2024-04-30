@@ -6,6 +6,7 @@ import { useTheme } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { router } from '@/router'
 
 export const Route = createFileRoute('/login')({
   component: Login
@@ -22,7 +23,10 @@ function Login() {
           You provide your credentials and we'll take care of the rest.
         </p>
 
-        <LoginForm className='mb-2 mt-4 w-full' />
+        <LoginForm
+          className='mb-2 mt-4 w-full'
+          onSuccess={() => router.history.push('/')}
+        />
 
         <p className='text-sm text-muted-foreground'>
           Don't have an account?{' '}

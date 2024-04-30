@@ -1,12 +1,31 @@
-import { Eye, EyeOff, Moon, ShoppingBasket, Sun, User2 } from 'lucide-react'
+import {
+  ArrowLeft,
+  Eye,
+  EyeOff,
+  Filter,
+  Grid2X2,
+  List,
+  Loader2,
+  Moon,
+  Search,
+  ShoppingBasket,
+  Sun,
+  User2
+} from 'lucide-react'
 
 export type { LucideIcon as IconType } from 'lucide-react'
 
 export const Icons = {
+  arrowLeft: ArrowLeft,
   cart: ShoppingBasket,
   eye: Eye,
   eyeOff: EyeOff,
+  filter: Filter,
+  grid: Grid2X2,
+  list: List,
   moon: Moon,
+  search: Search,
+  spinner: Loader2,
   sun: Sun,
   user: User2
 }

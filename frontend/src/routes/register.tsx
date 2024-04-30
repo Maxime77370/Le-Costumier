@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { toast } from 'sonner'
 
 import { RegisterForm } from '@/components/auth/register-form'
 import { Icons } from '@/components/icons'
@@ -6,6 +7,7 @@ import { useTheme } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { router } from '@/router'
 
 export const Route = createFileRoute('/register')({
   component: Register
@@ -24,7 +26,13 @@ function Register() {
           Thanks to register, you can access to commands history and more.
         </p>
 
-        <RegisterForm className='mb-2 mt-4 w-full' />
+        <RegisterForm
+          className='mb-2 mt-4 w-full'
+          onSuccess={() => {
+            toast.success('Account created successfully!')
+            router.history.push('/login')
+          }}
+        />
 
         <p className='text-sm text-muted-foreground'>
           Already have an account?{' '}

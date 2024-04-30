@@ -1,112 +1,77 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { icons } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
+import { ProductResult } from 'types/api/products'
+import { z } from 'zod'
 
-import { ProductCardList } from '@/components/products/product-card-list/products-card-list'
-import { ProductFilter } from '@/components/products/product-filter'
-import { ProductTable } from '@/components/products/products-table/product-table'
-import { fakeProducts } from '@/fakeData'
+import { getProducts } from '@/api/products'
+import { Icons } from '@/components/icons'
+import { ProductsCardGrid } from '@/components/products/products-card-grid'
+import { ProductsFilter } from '@/components/products/products-filter/products-filter'
+import { ProductTable } from '@/components/products/products-table'
+import { Button } from '@/components/ui/button'
+import { router } from '@/router'
 
-type ProductSearch = {
-  categories?: string
-  priceMin?: number
-  priceMax?: number
-  search?: string
-}
+const searchSchema = z.object({
+  name: z.string().optional(),
+  categories: z.string().optional(),
+  minPrice: z.number().optional(),
+  maxPrice: z.number().optional()
+})
 
 export const Route = createFileRoute('/_layout/products/')({
   component: Products,
-  validateSearch: (search: Record<string, unknown>): ProductSearch => {
-    return {
-      categories:
-        typeof search.categories === 'string' ? search.categories : undefined,
-      priceMin:
-        typeof search.priceMin === 'number' ? search.priceMin : undefined,
-      priceMax:
-        typeof search.priceMax === 'number' ? search.priceMax : undefined,
-      search: typeof search.search === 'string' ? search.search : undefined
-    }
-  }
+  validateSearch: search => searchSchema.parse(search)
 })
 
 function Products() {
   const [isList, setIsList] = useState(false)
 
-  const backNavigation = useNavigate({ from: '/products' })
-
-  const Icon = isList ? icons.List : icons.Grid2x2
+  const IconMode = isList ? Icons.list : Icons.grid
 
   const search = Route.useSearch()
 
-  const filteredProducts = fakeProducts.filter(product => {
-    if (search.priceMin) {
-      if (product.price < search.priceMin) {
-        return false
-      }
-    }
-
-    if (search.priceMax) {
-      if (product.price > search.priceMax) {
-        return false
-      }
-    }
-    if (search.search) {
-      if (
-        !product.name.toLowerCase().includes(search.search.toLowerCase()) &&
-        !product.categories.some(category =>
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          // search.search is not undefined
-          category.name.toLowerCase().includes(search.search.toLowerCase())
-        )
-      ) {
-        return false
-      }
-    }
-
-    if (search.categories) {
-      const selectedCategories = search.categories.split(',')
-      if (
-        !selectedCategories.every(category =>
-          product.categories.some(pCategory => pCategory.name === category)
-        )
-      ) {
-        return false
-      }
-    }
-
-    return true
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', 'search', { search }],
+    queryFn: () => getProducts(search),
+    select: res => res.data as ProductResult[]
   })
+
+  const toggleListMode = () => setIsList(prev => !prev)
 
   return (
     <>
       <div className='sticky top-0 z-10 flex w-full justify-between'>
-        <icons.ArrowLeft
-          className='left-0 top-0 mt-4 cursor-pointer
-          '
-          size={24}
-          onClick={() => backNavigation({ to: '/' })}
-        />
-        <Icon
-          className='right-0 top-0 mt-4 cursor-pointer
-        '
-          size={24}
-          onClick={() => setIsList(!isList)}
-        />
+        <Button
+          size='icon'
+          variant='ghost'
+          className='mt-2 size-8'
+          onClick={() => router.history.back()}
+        >
+          <Icons.arrowLeft />
+        </Button>
+
+        <Button
+          size='icon'
+          variant='ghost'
+          className='mt-2 size-8'
+          onClick={toggleListMode}
+        >
+          <IconMode />
+        </Button>
       </div>
-      <div className='flex flex-col items-center'>
-        <span className='mt-2 text-2xl font-semibold'>Featured Products</span>
-        <ProductFilter className='mt-2' />
-        {isList ? (
-          <ProductTable
-            products={filteredProducts}
-            className='mx-auto mt-4 w-3/4'
-          />
+
+      <div className='mx-12'>
+        <h2 className='font-semibold text-2xl'>Featured Products</h2>
+
+        <ProductsFilter className='mt-2' />
+
+        {isLoading || !data ? (
+          <div>Loading...</div>
+        ) : isList ? (
+          <ProductTable products={data} className='mt-4' />
         ) : (
-          <ProductCardList
-            products={filteredProducts}
-            className='mx-auto mt-4  w-2/3'
-          />
+          <ProductsCardGrid products={data} className='mt-4' />
         )}
       </div>
     </>

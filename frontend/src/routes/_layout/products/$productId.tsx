@@ -1,76 +1,88 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { icons } from 'lucide-react'
-import { Category } from 'types/category'
-import { Product } from 'types/product'
+import { useQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router'
 
-import { ProductCard } from '@/components/products/product-card-horizontal'
-import { ProductCardList } from '@/components/products/product-card-list/products-card-list'
-import { ProductCarousel } from '@/components/products/products-carousel/product-carousel'
-import { fakeProducts } from '@/fakeData'
+import { getProductById } from '@/api/products'
+import { AddToCart } from '@/components/cart/add-to-card'
+import { CategoryBadge } from '@/components/categories/category-badge'
+import { Icons } from '@/components/icons'
+import { Button } from '@/components/ui/button'
+import { router } from '@/router'
 
 export const Route = createFileRoute('/_layout/products/$productId')({
-  component: ProductID
+  component: ProductPage
 })
 
-function ProductID() {
+function ProductPage() {
   const param = Route.useParams()
-  const product = fakeProducts.find(p => p.id === param.productId)
-  const relatedProducts = fakeProducts.filter(
-    (p: Product) =>
-      product &&
-      p.id !== product.id &&
-      p.categories.some((category: Category) =>
-        product.categories.includes(category)
-      )
-  )
 
-  const otherProducts = product
-    ? fakeProducts.filter(
-        (p: Product) =>
-          p.id !== product.id &&
-          !p.categories.some(
-            (category: Category) =>
-              category.name.toLowerCase() ===
-              product.categories[0].name.toLowerCase()
-          )
-      )
-    : fakeProducts
-
-  const backNavigation = useNavigate({ from: '/products/$productId' })
+  const { data: product, isLoading } = useQuery({
+    queryKey: ['product', param.productId],
+    queryFn: () => getProductById(param.productId),
+    enabled: param.productId !== undefined && param.productId !== null,
+    select: data => data.data
+  })
 
   return (
     <>
-      <icons.ArrowLeft
-        className='absolute left-0 top-0 ml-4 mt-4 cursor-pointer
-      '
-        size={24}
-        onClick={() => backNavigation({ to: '/products' })}
-      />
-      <div className='flex flex-col items-center'>
-        {product ? (
-          <>
-            <span className='mt-4 text-2xl font-semibold'>Product</span>
-            <ProductCard product={product} className='mt-4 w-2/3' />
-            {relatedProducts.length !== 0 ? (
-              <>
-                <span className='mt-4 text-2xl font-semibold'>
-                  Related Products
-                </span>
-                <ProductCarousel
-                  products={relatedProducts}
-                  className='mt-4 w-3/4'
-                />
-              </>
-            ) : (
-              <></>
-            )}
-          </>
+      <div className='sticky top-0 z-10 flex w-full justify-between'>
+        <Button
+          size='icon'
+          variant='ghost'
+          className='mt-2 size-8'
+          onClick={() => router.history.back()}
+        >
+          <Icons.arrowLeft />
+        </Button>
+      </div>
+
+      <div className='mt-4'>
+        {isLoading ? (
+          <Loading />
+        ) : product ? (
+          <div className='grid grid-cols-5'>
+            <div className='col-span-3 flex max-h-[500px] items-center justify-center'>
+              <img
+                src={product.photo}
+                alt={product.name}
+                className='h-full object-fill'
+              />
+            </div>
+
+            <div className='col-span-2 flex flex-col justify-between'>
+              <div>
+                <h3 className='font-bold text-2xl'>{product.name}</h3>
+                <p className='text-xl'>
+                  {product.price.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                  })}
+                </p>
+
+                <p className='mt-4 text-sm leading-none text-muted-foreground'>
+                  Description
+                </p>
+                <p>{product.description}</p>
+
+                <p className='mb-1 mt-4 text-sm leading-none text-muted-foreground'>
+                  Categories
+                </p>
+
+                {product.categories.map(category => (
+                  <CategoryBadge key={category.id} category={category} />
+                ))}
+              </div>
+
+              <AddToCart productId={product.id} />
+            </div>
+          </div>
         ) : (
-          <span className='mt-4 text-xl font-semibold'>Product not found</span>
+          <span className='mt-4 font-semibold text-xl'>Product not found</span>
         )}
-        <span className='mt-4 text-2xl font-semibold'>Other Products</span>
-        <ProductCardList products={otherProducts} className='mt-4 w-3/4' />
       </div>
     </>
   )
+}
+
+function Loading() {
+  return <span>Loading...</span>
 }

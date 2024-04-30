@@ -3,8 +3,10 @@ import { useMutation } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { register } from '@/api/auth'
+import { updateUser } from '@/api/user'
 import { cn } from '@/lib/utils'
+import { neutralValuesToNull, neutralValuesToUndefined } from '@/lib/zod'
+import { useAuthStore } from '@/stores/auth-store'
 import { Icons } from '../icons'
 import { Button } from '../ui/button'
 import {
@@ -19,44 +21,61 @@ import { Input } from '../ui/input'
 import { InputPassword } from '../ui/input-password'
 
 const schema = z.object({
-  lastName: z.string().min(1, 'Last name is required'),
-  firstName: z.string().min(1, 'First name is required'),
+  lastName: neutralValuesToNull(z.string().nullable()),
+  firstName: neutralValuesToNull(z.string().nullable()),
   login: z
     .string()
     .min(3, 'Login must be at least 3 characters long')
     .toLowerCase(),
   email: z.string().email('Invalid email'),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters long')
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$/,
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-    )
+  password: neutralValuesToUndefined(
+    z
+      .string()
+      .min(8, 'Password must be at least 8 characters long')
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$/,
+        'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+      )
+      .optional()
+  )
 })
 
 type SchemaType = z.infer<typeof schema>
 
-type RegisterFormProps = {
+type AccountFormProps = {
+  user: Omit<SchemaType, 'password'>
   className?: string
   onSuccess?: () => void
 }
 
-function RegisterForm({ className, onSuccess }: RegisterFormProps) {
+function AccountForm({ user, className, onSuccess }: AccountFormProps) {
+  const setUser = useAuthStore(state => state.setUser)
+
   const form = useForm<SchemaType>({
     resolver: zodResolver(schema),
     defaultValues: {
-      lastName: '',
-      firstName: '',
-      login: '',
-      email: '',
+      lastName: user.lastName,
+      firstName: user.firstName,
+      login: user.login,
+      email: user.email,
       password: ''
     }
   })
 
   const { mutate, isPending } = useMutation({
-    mutationFn: register,
-    onSuccess
+    mutationFn: updateUser,
+    onSuccess: result => {
+      setUser({
+        firstName: result.data.firstname,
+        lastName: result.data.lastname,
+        login: result.data.login,
+        email: result.data.email
+      })
+
+      if (onSuccess) {
+        onSuccess()
+      }
+    }
   })
 
   const onSubmit = (data: SchemaType) => {
@@ -76,7 +95,7 @@ function RegisterForm({ className, onSuccess }: RegisterFormProps) {
             <FormItem className='space-y-1'>
               <FormLabel>Last name</FormLabel>
               <FormControl>
-                <Input {...field} placeholder='Doe' />
+                <Input {...field} value={field.value ?? ''} placeholder='Doe' />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,7 +109,11 @@ function RegisterForm({ className, onSuccess }: RegisterFormProps) {
             <FormItem className='space-y-1'>
               <FormLabel>First name</FormLabel>
               <FormControl>
-                <Input {...field} placeholder='John' />
+                <Input
+                  {...field}
+                  value={field.value ?? ''}
+                  placeholder='John'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -152,11 +175,11 @@ function RegisterForm({ className, onSuccess }: RegisterFormProps) {
           className='mt-2 w-full gap-x-2'
         >
           {isPending && <Icons.spinner className='size-4 animate-spin' />}
-          <span>Register</span>
+          <span>Update your account</span>
         </Button>
       </form>
     </Form>
   )
 }
 
-export { RegisterForm }
+export { AccountForm }

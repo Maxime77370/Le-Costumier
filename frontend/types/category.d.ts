@@ -1,7 +1,7 @@
 import LucideIcon from 'react-lucide'
 
 export type Category = {
-  id: string
+  id: number
   name: string
   subCategories?: Category[]
   parentCategory?: Category

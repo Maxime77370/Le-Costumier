@@ -1,30 +1,37 @@
+import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { Space } from 'lucide-react'
 
-import { ProductCarousel } from '@/components/products/products-carousel/product-carousel'
+import { getProducts } from '@/api/products'
+import { ProductCarousel } from '@/components/products/product-carousel'
 import { Button } from '@/components/ui/button'
-import { fakeProducts } from '@/fakeData'
 
 export const Route = createFileRoute('/_layout/')({
   component: Index
 })
 
 function Index() {
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', 'last-10'],
+    queryFn: () => getProducts({ limit: 10, sort: 'name', order: 'desc' }),
+    select: res => res.data
+  })
+
   return (
-    <div className='mt-2'>
+    <>
       <Link
         to='/products'
-        className='flex h-64 flex-col items-center justify-evenly'
+        className='flex h-60 flex-col items-center justify-evenly'
       >
         <span className='font-bold text-5xl'>Le Costumier</span>
-        <Button>View All Products</Button>
+
+        <Button>View all products</Button>
       </Link>
-      <div className='flex flex-col items-center'>
-        <ProductCarousel
-          products={fakeProducts}
-          className='mx-auto mt-4 w-3/4'
-        />
-      </div>
-    </div>
+
+      {isLoading || !data ? (
+        <div>Loading...</div>
+      ) : (
+        <ProductCarousel products={data} className='mx-auto w-4/5' />
+      )}
+    </>
   )
 }

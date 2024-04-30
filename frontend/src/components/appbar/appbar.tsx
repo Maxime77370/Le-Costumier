@@ -1,14 +1,14 @@
 import { Link } from '@tanstack/react-router'
 
 import { cn } from '@/lib/utils'
+import { useAuthStore } from '@/stores/auth-store'
 import { Icons } from '../icons'
 import { SearchBar } from '../searchbar/searchbar'
 import { ThemeToggle } from '../theme-toggle'
 import { Button, buttonVariants } from '../ui/button'
-import { AppbarNavigationMenu } from './navigation-menu'
 
 function Appbar() {
-  const isLogged = true
+  const user = useAuthStore(state => state.user)
 
   return (
     <header className='h-14 border-b'>
@@ -23,9 +23,7 @@ function Appbar() {
           Le Costumier
         </Link>
 
-        <div className='flex-1'>
-          <AppbarNavigationMenu className='hidden sm:block' />
-        </div>
+        <div className='flex-1' />
 
         <SearchBar />
 
@@ -37,7 +35,7 @@ function Appbar() {
         </ThemeToggle>
 
         <Link
-          to={isLogged ? '/account' : '/login'}
+          to={user ? '/account' : '/login'}
           className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }))}
         >
           <Icons.user className='size-5' />

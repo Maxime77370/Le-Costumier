@@ -15,8 +15,10 @@ import { Route as RegisterImport } from './../routes/register'
 import { Route as LoginImport } from './../routes/login'
 import { Route as LayoutImport } from './../routes/_layout'
 import { Route as LayoutIndexImport } from './../routes/_layout/index'
+import { Route as LayoutAuthImport } from './../routes/_layout/_auth'
 import { Route as LayoutProductsIndexImport } from './../routes/_layout/products/index'
 import { Route as LayoutProductsProductIdImport } from './../routes/_layout/products/$productId'
+import { Route as LayoutAuthAccountImport } from './../routes/_layout/_auth/account'
 
 // Create/Update Routes
 
@@ -40,6 +42,11 @@ const LayoutIndexRoute = LayoutIndexImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutAuthRoute = LayoutAuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutProductsIndexRoute = LayoutProductsIndexImport.update({
   path: '/products/',
   getParentRoute: () => LayoutRoute,
@@ -48,6 +55,11 @@ const LayoutProductsIndexRoute = LayoutProductsIndexImport.update({
 const LayoutProductsProductIdRoute = LayoutProductsProductIdImport.update({
   path: '/products/$productId',
   getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutAuthAccountRoute = LayoutAuthAccountImport.update({
+  path: '/account',
+  getParentRoute: () => LayoutAuthRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -66,9 +78,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
+    '/_layout/_auth': {
+      preLoaderRoute: typeof LayoutAuthImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/': {
       preLoaderRoute: typeof LayoutIndexImport
       parentRoute: typeof LayoutImport
+    }
+    '/_layout/_auth/account': {
+      preLoaderRoute: typeof LayoutAuthAccountImport
+      parentRoute: typeof LayoutAuthImport
     }
     '/_layout/products/$productId': {
       preLoaderRoute: typeof LayoutProductsProductIdImport
@@ -85,6 +105,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
+    LayoutAuthRoute.addChildren([LayoutAuthAccountRoute]),
     LayoutIndexRoute,
     LayoutProductsProductIdRoute,
     LayoutProductsIndexRoute,

@@ -2,7 +2,6 @@ import { useNavigate } from '@tanstack/react-router'
 import React, { useState } from 'react'
 
 import { CategoryNameIcon } from '@/components/categories/category-name-icon'
-import { ProductCategoriesBadge } from '@/components/products/product-categories-badge'
 import {
   Command,
   CommandEmpty,
@@ -41,10 +40,10 @@ function SearchBarModal({ className }: SearchBarModalProps) {
     setSearchInput(query)
   }
 
-  const handleProductClick = (productId: string) => {
-    productIdNavigate({
+  const handleProductClick = (productId: number) => {
+    productNavigate({
       to: `/products/$productId`,
-      params: { productId }
+      params: { productId: productId.toString() }
     })
   }
 
@@ -96,7 +95,7 @@ function SearchBarModal({ className }: SearchBarModalProps) {
               onSelect={() => handleProductClick(product.id)}
             >
               {product.name}
-              <ProductCategoriesBadge product={product} className='ml-2' />
+              {/* <ProductCategoriesBadge product={product} className='ml-2' /> */}
             </CommandItem>
           ))}
           {filteredProducts.length > 3 && (
