@@ -22,16 +22,13 @@ class ProductFixtures extends Fixture
         // Loop through the data and create Product entities
         foreach ($data as $item) {
             $product = new Product();
-            // Set the properties of the product entity
-            // $product->setName($item['name']);
-            // $product->setPrice($item['price']);
             $product->setName($item['name']);
             $product->setDescription($item['description']);
             $product->setPhoto($item['photo']);
             $product->setPrice($item['price']);
             
             foreach($item['categories'] as $category) {
-                $categoryEntity = $manager->getRepository(Category::class)->findOneBy(['name' => $category]);
+                $categoryEntity = $manager->getRepository(Category::class)->findOneBy(['name' => strtoupper($category)]);
                 if ($categoryEntity) {
                     $product->addCategory($categoryEntity);
                 }

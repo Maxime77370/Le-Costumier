@@ -11,19 +11,19 @@ class CategoriesFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $categories = ['Costume', 'Pantalon', 'Chemise', 'Chaussures', 'Pull', 'Cravate'];
+        $categories = ['Costume', 'Pantalon', 'Chemise', 'Chaussures', 'Pull', 'Cravate', 'Homme'];
         $colors = [];
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 7; $i++) {
             $red = mt_rand(150, 255);
             $green = mt_rand(150, 255);
             $blue = mt_rand(150, 255);
             $color = sprintf('#%02x%02x%02x', $red, $green, $blue);
             $colors[] = $color;
         }
-
-        for ($i = 0; $i < 6; $i++) {
+    
+        for ($i = 0; $i < 7; $i++) {
             $category = new Category();
-            $category->setName($categories[$i]);
+            $category->setName(strtoupper($categories[$i]));
             $category->setColor($colors[$i]);
             $manager->persist($category);
         }

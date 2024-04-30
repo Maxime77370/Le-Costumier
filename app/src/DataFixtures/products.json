@@ -5,7 +5,8 @@
         "photo": "https://img.bestdealplus.com/ae01/kf/S01c781ca9dd24b42ab8c7fce94ff45a9L.jpg",
         "price": 150,
         "categories": [
-            "Costume"
+            "Costume",
+            "Homme"
         ]
     },
     {
@@ -14,7 +15,8 @@
         "photo": "https://lechemiseur.fr/data/lechemiseur/pantalon/pantalon-homme-S02-smart-anthracite-porte.jpg",
         "price": 80,
         "categories": [
-            "Pantalon"
+            "Pantalon",
+            "Homme"
         ]
     },
     {
@@ -23,7 +25,8 @@
         "photo": "https://cdn.shopify.com/s/files/1/0825/8879/5154/files/chemise-casual-blanche_a8343126-554c-4eb2-b704-75633b4d11db.jpg?v=1705624549",
         "price": 50,
         "categories": [
-            "Chemise"
+            "Chemise",
+            "Homme"
         ]
     },
     {
@@ -32,7 +35,8 @@
         "photo": "https://www.cravate-avenue.com/img/cms/Articles%20mode/satorialime/Photos_satorial/Article_Satorial_description_mode_de_rue_%20(48).jpg",
         "price": 30,
         "categories": [
-            "Cravate"
+            "Cravate",
+            "Homme"
         ]
     },
     {
@@ -41,7 +45,8 @@
         "photo": "https://img.joomcdn.net/d5051a49e85b7ab6bab8443f39e3778d4ff3e52d_original.jpeg",
         "price": 120,
         "categories": [
-            "Chaussures"
+            "Chaussures",
+            "Homme"
         ]
     }
 ]

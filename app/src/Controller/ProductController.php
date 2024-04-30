@@ -89,13 +89,12 @@ class ProductController extends AbstractController
                 ], 400);
             }
         }
-        $queryResults = $productRepository->findAllQuery($field, $order, $limit, $offset, $name, $category);
-        if ($limit) {
-            $result = ['nodes' => $queryResults, 'total' => count($productRepository->findByName($name))];
-            $resultJson = $serializer->serialize($result, 'json');
-        } else {
-            $resultJson = $serializer->serialize($queryResults, 'json');
+        if ($category) {
+            $category = explode(',', $category);
         }
+
+        $queryResults = $productRepository->findAllQuery($field, $order, $limit, $offset, $name, $category); 
+        $resultJson = $serializer->serialize($queryResults, 'json');
         
         return new JsonResponse($resultJson, 200, [], true);
     }

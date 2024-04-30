@@ -1,0 +1,51 @@
+[
+    {
+        "name": "Gender",
+        "color": "#ffffff"
+    },
+    {
+        "name": "Men",
+        "parent": "Gender",
+        "color": "#ffffff"
+    },
+    {
+        "name": "Women",
+        "parent": "Gender",
+        "color": "#ffffff"
+    },
+    {
+        "name": "Kids",
+        "parent": "Gender", 
+        "color": "#000000"
+    },
+    {
+        "name": "Accessories",
+        "color": "#000000"
+    },
+    {
+        "name": "Pants",
+        "color": "#000000"
+    },
+    {
+        "name": "Shirts",
+        "color": "#000000"
+    },
+    {
+        "name": "Shoes",
+        "color": "#000000"
+    },
+    {
+        "name": "T-Shirts",
+        "color": "#000000"
+    },
+    {
+        "name": "Wool"
+    },
+    {
+        "name": "Silk"
+    },
+    {
+        "name": "Cotton"
+    }
+]
+
