@@ -13,3 +13,6 @@ CONTAINER_ALREADY_STARTED_PLACEHOLDER
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+categories.json
+products.json

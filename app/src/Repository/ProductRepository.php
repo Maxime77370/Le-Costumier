@@ -30,10 +30,10 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function findAllQuery($field, $order, $limit, $offset, $name, $category): array {
+    public function findAllQuery($field, $order, $limit, $offset, $name, $categories): array {
         $query = $this->createQueryBuilder('p');
         if ($name) {
-            $query->andWhere('p.name LIKE :name')
+            $query->andWhere('LOWER(p.name) LIKE LOWER(:name)')
                 ->setParameter('name', '%' . $name . '%');
         }
         if ($field) {
@@ -45,17 +45,18 @@ class ProductRepository extends ServiceEntityRepository
         if ($offset) {
             $query->setFirstResult($offset);
         }
-        if ($category) {
-            $category = strtoupper($category);
-            $categoryQuery = $this->getEntityManager()->getRepository(Category::class)->findOneBy(["name" => $category]);
-            if (!$categoryQuery) {
-                return [];
+        if ($categories) {
+            $query->join('p.categories', 'c');
+            foreach($categories as $category) {
+                $category = strtoupper($category);
+                $categoryQuery = $this->getEntityManager()->getRepository(Category::class)->findOneBy(["name" => $category]);
+                if (!$categoryQuery) {
+                    return [$category];
+                }
+                $category = $categoryQuery->getId();
+                $query->andWhere('c.id = :categories')
+                    ->setParameter('categories', $category);
             }
-            $category = $categoryQuery->getId();
-            $query->addSelect('c')
-                ->leftJoin('p.category', 'c')
-                ->andWhere('c.id = :category')
-                ->setParameter('category', $category);
         }
         return $query->getQuery()
             ->getResult();
