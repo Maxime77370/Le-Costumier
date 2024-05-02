@@ -1,7 +1,7 @@
 FROM python:alpine as fakeData
 
 WORKDIR /app
-COPY ./app/generateProducts.py /app/script.py
+COPY generateProducts.py /app/script.py
 
 RUN python /app/script.py
 
