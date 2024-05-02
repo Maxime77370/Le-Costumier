@@ -45,7 +45,10 @@ class ProductController extends AbstractController
         $limit = $request->query->get('limit');
         $offset = $request->query->get('offset');
         $name = $request->query->get('name');
-        $category = $request->query->get('category');
+        $categories = $request->query->get('categories');
+
+        $minPrice = $request->query->get('minPrice');
+        $maxPrice = $request->query->get('maxPrice');
 
         if ($field) {
             $allowedFields = ['name', 'price'];
@@ -89,11 +92,28 @@ class ProductController extends AbstractController
                 ], 400);
             }
         }
-        if ($category) {
-            $category = explode(',', $category);
+        if ($categories) {
+            $categories = explode(',', $categories);
         }
 
-        $queryResults = $productRepository->findAllQuery($field, $order, $limit, $offset, $name, $category); 
+        if ($maxPrice) {
+            if(!is_numeric($maxPrice)) {
+                return new JsonResponse([
+                    'error' => 'Invalid maxPrice'
+                    ], 400);
+            }
+        }
+
+        if ($minPrice) {
+            if(!is_numeric($minPrice)) {
+                return new JsonResponse([
+                    'error' => 'Invalid minPrice'
+                    ], 400);
+            }
+        }
+
+
+        $queryResults = $productRepository->findAllQuery($field, $order, $limit, $offset, $name, $categories, $maxPrice, $minPrice); 
         $resultJson = $serializer->serialize($queryResults, 'json');
         
         return new JsonResponse($resultJson, 200, [], true);

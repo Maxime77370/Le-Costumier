@@ -30,7 +30,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function findAllQuery($field, $order, $limit, $offset, $name, $categories): array {
+    public function findAllQuery($field, $order, $limit, $offset, $name, $categories, $maxPrice, $minPrice): array {
         $query = $this->createQueryBuilder('p');
         if ($name) {
             $query->andWhere('LOWER(p.name) LIKE LOWER(:name)')
@@ -58,6 +58,15 @@ class ProductRepository extends ServiceEntityRepository
                     ->setParameter('categories', $category);
             }
         }
+        if ($maxPrice) {
+            $query->andWhere('p.price <= :maxPrice')
+                ->setParameter('maxPrice', $maxPrice);
+        }
+        if ($minPrice) {
+            $query->andWhere('p.price >= :minPrice')
+                ->setParameter('minPrice', $minPrice);
+        }
+
         return $query->getQuery()
             ->getResult();
     }
