@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 
 import { LoginForm } from '@/components/auth/login-form'
 import { Icons } from '@/components/icons'
@@ -6,7 +6,6 @@ import { useTheme } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { router } from '@/router'
 
 export const Route = createFileRoute('/login')({
   component: Login
@@ -14,6 +13,8 @@ export const Route = createFileRoute('/login')({
 
 function Login() {
   const { resolvedTheme } = useTheme()
+
+  const navigate = useNavigate({ from: '/login' })
 
   return (
     <div className='relative'>
@@ -25,7 +26,7 @@ function Login() {
 
         <LoginForm
           className='mb-2 mt-4 w-full'
-          onSuccess={() => router.history.push('/')}
+          onSuccess={() => navigate({ to: '/' })}
         />
 
         <p className='text-sm text-muted-foreground'>

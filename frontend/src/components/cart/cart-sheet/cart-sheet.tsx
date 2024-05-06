@@ -21,23 +21,25 @@ interface CartSheetProps {
 }
 
 function CartSheet({ children }: CartSheetProps) {
-  const { data, isLoading } = useQuery({
+  const { data: cart, isLoading } = useQuery({
     queryKey: ['cart'],
     queryFn: getCart,
     select: res => res.data
   })
 
-  const totalCount = useMemo(() => {
-    return data
-      ? data.products.reduce((acc, product) => acc + product.price, 0)
+  const productsCount = useMemo(() => {
+    return cart ? cart.products.length : 0
+  }, [cart])
+
+  const priceCount = useMemo(() => {
+    return cart
+      ? cart.products.reduce((acc, product) => acc + product.price, 0)
       : 0
-  }, [data])
+  }, [cart])
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        {children({ count: data ? data.products.length : 0 })}
-      </SheetTrigger>
+      <SheetTrigger asChild>{children({ count: productsCount })}</SheetTrigger>
 
       <SheetContent className='flex flex-col gap-y-4'>
         <SheetHeader>
@@ -45,10 +47,10 @@ function CartSheet({ children }: CartSheetProps) {
         </SheetHeader>
 
         <div className='flex flex-1 flex-col gap-y-4'>
-          {isLoading || !data ? (
+          {isLoading || !cart ? (
             <div>Loading...</div>
           ) : (
-            data.products.map(product => (
+            cart.products.map(product => (
               <CartItem key={product.id} product={product} />
             ))
           )}
@@ -56,7 +58,7 @@ function CartSheet({ children }: CartSheetProps) {
 
         <SheetFooter className='font-semibold text-lg'>
           Total:{' '}
-          {totalCount.toLocaleString('en-US', {
+          {priceCount.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD'
           })}

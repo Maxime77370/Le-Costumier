@@ -1,11 +1,10 @@
-import { useSearch } from '@tanstack/react-router'
+import { useRouter, useSearch } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import { router } from '@/router'
 import { ProductsFilterSheet } from './products-filter-sheet'
 
 interface ProductsFilterProps {
@@ -13,6 +12,8 @@ interface ProductsFilterProps {
 }
 
 function ProductsFilter({ className }: ProductsFilterProps) {
+  const router = useRouter()
+
   const search = useSearch({
     from: '/_layout/products/'
   })

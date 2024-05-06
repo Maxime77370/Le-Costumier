@@ -11,10 +11,6 @@ export function getProductById(productId: string) {
 
 export function getProducts(options: ProductsPaginationParams) {
   return instance.get<ProductResult[]>('/products', {
-    params: {
-      ...options,
-      categories: undefined,
-      category: options.categories ?? undefined
-    }
+    params: options
   })
 }

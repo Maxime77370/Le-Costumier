@@ -9,7 +9,7 @@ export interface ProductResult {
 
 export interface ProductsPaginationParams {
   name?: string
-  categories?: string[]
+  categories?: string
   price?: number
   limit?: number
   offset?: number

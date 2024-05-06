@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
-import { ProductResult } from 'types/api/products'
 import { z } from 'zod'
 
 import { getProducts } from '@/api/products'
@@ -10,7 +9,6 @@ import { ProductsCardGrid } from '@/components/products/products-card-grid'
 import { ProductsFilter } from '@/components/products/products-filter/products-filter'
 import { ProductTable } from '@/components/products/products-table'
 import { Button } from '@/components/ui/button'
-import { router } from '@/router'
 
 const searchSchema = z.object({
   name: z.string().optional(),
@@ -19,25 +17,32 @@ const searchSchema = z.object({
   maxPrice: z.number().optional()
 })
 
+const options = (search: z.infer<typeof searchSchema>) =>
+  queryOptions({
+    queryKey: ['products', { search }],
+    queryFn: () => getProducts(search),
+    select: res => res.data
+  })
+
 export const Route = createFileRoute('/_layout/products/')({
-  component: Products,
-  validateSearch: search => searchSchema.parse(search)
+  validateSearch: search => searchSchema.parse(search),
+  loaderDeps: ({ search }) => ({ ...search }),
+  loader: ({ deps, context: { queryClient } }) =>
+    queryClient.ensureQueryData(options(deps)),
+  component: Products
 })
 
 function Products() {
+  const search = Route.useSearch()
+  const router = useRouter()
+
+  const productsQuery = useSuspenseQuery(options(search))
+  const products = productsQuery.data
+
   const [isList, setIsList] = useState(false)
+  const toggleListMode = () => setIsList(prev => !prev)
 
   const IconMode = isList ? Icons.list : Icons.grid
-
-  const search = Route.useSearch()
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['products', 'search', { search }],
-    queryFn: () => getProducts(search),
-    select: res => res.data as ProductResult[]
-  })
-
-  const toggleListMode = () => setIsList(prev => !prev)
 
   return (
     <>
@@ -66,12 +71,10 @@ function Products() {
 
         <ProductsFilter className='mt-2' />
 
-        {isLoading || !data ? (
-          <div>Loading...</div>
-        ) : isList ? (
-          <ProductTable products={data} className='mt-4' />
+        {isList ? (
+          <ProductTable products={products} className='mt-4' />
         ) : (
-          <ProductsCardGrid products={data} className='mt-4' />
+          <ProductsCardGrid products={products} className='mt-4' />
         )}
       </div>
     </>

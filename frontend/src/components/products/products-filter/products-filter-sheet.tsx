@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
-import { useSearch } from '@tanstack/react-router'
+import { useRouter, useSearch } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { getCategories } from '@/api/categories'
 import { Slider } from '@/components/ui/slider'
 import { cn } from '@/lib/utils'
-import { router } from '@/router'
 import { Icons } from '../../icons'
 import {
   Accordion,
@@ -40,6 +39,7 @@ interface SheetFilters {
 function ProductsFilterSheet({ className }: ProductFilterProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
+  const router = useRouter()
   const search = useSearch({
     from: '/_layout/products/'
   })
