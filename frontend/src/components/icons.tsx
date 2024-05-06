@@ -10,6 +10,7 @@ import {
   Search,
   ShoppingBasket,
   Sun,
+  Trash2,
   User2
 } from 'lucide-react'
 
@@ -27,5 +28,6 @@ export const Icons = {
   search: Search,
   spinner: Loader2,
   sun: Sun,
+  trash: Trash2,
   user: User2
 }

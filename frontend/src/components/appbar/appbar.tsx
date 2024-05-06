@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth-store'
+import { CartSheet } from '../cart/cart-sheet/cart-sheet'
 import { Icons } from '../icons'
 import { SearchBar } from '../searchbar/searchbar'
 import { ThemeToggle } from '../theme-toggle'
@@ -41,12 +42,19 @@ function Appbar() {
           <Icons.user className='size-5' />
         </Link>
 
-        <Link
-          to='/'
-          className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }))}
-        >
-          <Icons.cart className='size-5' />
-        </Link>
+        <CartSheet>
+          {({ count }) => (
+            <Button variant='ghost' size='icon' className='relative'>
+              <Icons.cart className='size-5' />
+
+              {count > 0 && (
+                <span className='absolute -right-0.5 -top-0.5 size-4 rounded-full bg-primary text-xs text-background'>
+                  {count > 9 ? '9+' : count}
+                </span>
+              )}
+            </Button>
+          )}
+        </CartSheet>
       </div>
     </header>
   )

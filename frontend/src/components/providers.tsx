@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import { ThemeProvider } from './theme-provider'
 import { Toaster } from './ui/sonner'
 
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 // import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 type ProvidersProps = {
@@ -39,7 +39,7 @@ function Providers({ children }: ProvidersProps) {
         <Toaster />
 
         {/* Devtools for query client and router */}
-        {/* <ReactQueryDevtools /> */}
+        <ReactQueryDevtools client={queryClient} />
         {/* <TanStackRouterDevtools /> */}
       </ThemeProvider>
     </QueryClientProvider>
