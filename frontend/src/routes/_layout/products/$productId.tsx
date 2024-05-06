@@ -70,9 +70,11 @@ function ProductPage() {
                 Categories
               </p>
 
-              {product.categories.map(category => (
-                <CategoryBadge key={category.id} category={category} />
-              ))}
+              <div className='flex flex-wrap gap-1'>
+                {product.categories.map(category => (
+                  <CategoryBadge key={category.id} category={category} />
+                ))}
+              </div>
             </div>
 
             <AddToCart productId={product.id} />

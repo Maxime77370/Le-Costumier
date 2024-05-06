@@ -9,7 +9,8 @@ export function getProductById(productId: string) {
   return instance.get<ProductResult>(`/products/${productId}`)
 }
 
-export function getProducts(options: ProductsPaginationParams) {
+export async function getProducts(options: ProductsPaginationParams) {
+  await new Promise(resolve => setTimeout(resolve, 1000))
   return instance.get<ProductResult[]>('/products', {
     params: options
   })

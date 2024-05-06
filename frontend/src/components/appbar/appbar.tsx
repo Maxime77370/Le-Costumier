@@ -4,9 +4,9 @@ import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/stores/auth-store'
 import { CartSheet } from '../cart/cart-sheet/cart-sheet'
 import { Icons } from '../icons'
-import { SearchBar } from '../searchbar/searchbar'
 import { ThemeToggle } from '../theme-toggle'
 import { Button, buttonVariants } from '../ui/button'
+import { SearchBar } from './searchbar'
 
 function Appbar() {
   const user = useAuthStore(state => state.user)
