@@ -22,7 +22,7 @@ function SearchBar() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [value, setValue] = useState<string>('')
 
-  const setValueDebounced = useDebounceCallback(setValue, 500)
+  const setValueDebounced = useDebounceCallback(setValue, 300)
 
   const { products, isLoading } = useQueries({
     queries: [

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { Category } from 'types/category'
 
 import { Badge } from '@/components/ui/badge'
@@ -9,13 +10,27 @@ type categoryBadgeProps = {
 }
 
 function CategoryBadge({ category, className }: categoryBadgeProps) {
+  const handleClick = (e: React.MouseEvent<'a'>) => {
+    e.stopPropagation()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
-    <Badge
-      style={{ backgroundColor: category.color }}
-      className={cn('cursor-pointer text-white', className)}
+    <Link
+      to={`/products`}
+      search={{ categories: category.name }}
+      onClick={handleClick}
     >
-      {category.name}
-    </Badge>
+      <Badge
+        style={{ backgroundColor: category.color }}
+        className={cn(
+          'cursor-pointer text-white transition-all duration-300 hover:scale-105 hover:saturate-200',
+          className
+        )}
+      >
+        {category.name}
+      </Badge>
+    </Link>
   )
 }
 
