@@ -1,4 +1,4 @@
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
@@ -9,18 +9,22 @@ import { useAuthStore } from '@/stores/auth-store'
 const options = queryOptions({
   queryKey: ['user'],
   queryFn: getCurrentUser,
-  select: res => res.data
+  select: res => res.data,
+  retry: false,
+  refetchOnWindowFocus: false,
+  refetchOnMount: false,
+  refetchOnReconnect: false,
+  refetchInterval: false,
+  refetchIntervalInBackground: false,
+  retryOnMount: false
 })
 
 export const Route = createFileRoute('/_layout')({
-  loader: ({ context: { queryClient } }) =>
-    queryClient.ensureQueryData(options),
   component: Layout
 })
 
 function Layout() {
-  const userQuery = useSuspenseQuery(options)
-  const user = userQuery.data
+  const { data: user, isLoading } = useQuery(options)
 
   const { setUser, setIsLogged } = useAuthStore(state => ({
     setUser: state.setUser,
@@ -28,6 +32,8 @@ function Layout() {
   }))
 
   useEffect(() => {
+    if (isLoading) return
+
     if (user) {
       setUser({
         firstName: user.firstname,
@@ -40,7 +46,7 @@ function Layout() {
       setUser(null)
       setIsLogged(false)
     }
-  }, [user, setUser, setIsLogged])
+  }, [isLoading, user, setUser, setIsLogged])
 
   return (
     <>

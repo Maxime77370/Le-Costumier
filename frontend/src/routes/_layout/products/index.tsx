@@ -29,7 +29,8 @@ export const Route = createFileRoute('/_layout/products/')({
   loaderDeps: ({ search }) => ({ ...search }),
   loader: ({ deps, context: { queryClient } }) =>
     queryClient.ensureQueryData(options(deps)),
-  component: Products
+  component: Products,
+  pendingMs: Infinity
 })
 
 function Products() {

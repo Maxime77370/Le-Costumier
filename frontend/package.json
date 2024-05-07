@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "stripe-products": "ts-node ./src/scripts/stripe-products.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -38,6 +39,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
     "sonner": "^1.4.41",
+    "stripe": "^15.5.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "usehooks-ts": "^3.1.0",

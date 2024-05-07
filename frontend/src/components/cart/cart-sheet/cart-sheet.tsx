@@ -6,11 +6,11 @@ import { getCart } from '@/api/cart'
 import {
   Sheet,
   SheetContent,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger
 } from '../../ui/sheet'
+import { BuyButton } from './buy-button'
 import { CartItem } from './cart-item'
 
 interface CartSheetChildrenProps {
@@ -26,7 +26,14 @@ function CartSheet({ children }: CartSheetProps) {
   const { data: cart, isLoading } = useQuery({
     queryKey: ['cart'],
     queryFn: getCart,
-    select: res => res.data
+    select: res => res.data,
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchInterval: false,
+    refetchIntervalInBackground: false,
+    retryOnMount: false
   })
 
   const productsCount = useMemo(() => {
@@ -65,13 +72,17 @@ function CartSheet({ children }: CartSheetProps) {
           )}
         </div>
 
-        <SheetFooter className='font-semibold text-lg'>
-          Total:{' '}
-          {priceCount.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD'
-          })}
-        </SheetFooter>
+        <div>
+          <p className='text-end font-semibold text-lg'>
+            Total:{' '}
+            {priceCount.toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD'
+            })}
+          </p>
+
+          {cart && <BuyButton products={cart.products} className='w-full' />}
+        </div>
       </SheetContent>
     </Sheet>
   )

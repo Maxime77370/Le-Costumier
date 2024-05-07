@@ -6,6 +6,7 @@ import './styles/globals.css'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+import { Icons } from './components/icons'
 import { routeTree } from './generated/routeTree.gen'
 
 const queryClient = new QueryClient()
@@ -16,7 +17,13 @@ const router = createRouter({
     queryClient
   },
   defaultPreload: 'intent',
-  defaultPreloadStaleTime: 0
+  defaultPreloadStaleTime: 0,
+  defaultPendingComponent: () => (
+    <div className='flex h-full items-center justify-center py-4'>
+      <Icons.spinner className='size-8 animate-spin' />
+    </div>
+  ),
+  defaultPendingMs: 0
 })
 
 // Register the router instance for type safety
