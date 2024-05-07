@@ -12,7 +12,7 @@ function Appbar() {
   const user = useAuthStore(state => state.user)
 
   return (
-    <header className='h-14 border-b'>
+    <header className='sticky top-0 z-50 h-14 border-b bg-background'>
       <div className='container relative flex h-full items-center gap-x-2'>
         <Link
           to='/'

@@ -21,7 +21,8 @@ function CartItem({ product }: CartItemProps) {
     }
   })
 
-  const handleRemove = () => {
+  const handleRemove = (e: React.MouseEvent) => {
+    e.preventDefault()
     mutate({ productId: product.id })
   }
 

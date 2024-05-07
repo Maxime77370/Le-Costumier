@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
+import { Link } from '@tanstack/react-router'
+import { useMemo, useState } from 'react'
 
 import { getCart } from '@/api/cart'
 import {
@@ -21,6 +22,7 @@ interface CartSheetProps {
 }
 
 function CartSheet({ children }: CartSheetProps) {
+  const [isOpen, setIsOpen] = useState(false)
   const { data: cart, isLoading } = useQuery({
     queryKey: ['cart'],
     queryFn: getCart,
@@ -38,7 +40,7 @@ function CartSheet({ children }: CartSheetProps) {
   }, [cart])
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>{children({ count: productsCount })}</SheetTrigger>
 
       <SheetContent className='flex flex-col gap-y-4'>
@@ -51,7 +53,14 @@ function CartSheet({ children }: CartSheetProps) {
             <div>Loading...</div>
           ) : (
             cart.products.map(product => (
-              <CartItem key={product.id} product={product} />
+              <Link
+                key={product.id}
+                to={`/products/${product.id}`}
+                onClick={() => setIsOpen(false)}
+                className='transition-all duration-300 hover:bg-secondary'
+              >
+                <CartItem key={product.id} product={product} />
+              </Link>
             ))
           )}
         </div>

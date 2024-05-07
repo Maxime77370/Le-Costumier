@@ -1,13 +1,14 @@
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
 
-import { getProductById } from '@/api/products'
+import { getProductById, getProducts } from '@/api/products'
 import { AddToCart } from '@/components/cart/add-to-card'
 import { CategoryBadge } from '@/components/categories/category-badge'
 import { Icons } from '@/components/icons'
+import { ProductTable } from '@/components/products/products-table'
 import { Button } from '@/components/ui/button'
 
-const options = (productId: string) =>
+const optionsById = (productId: string) =>
   queryOptions({
     queryKey: ['product', productId],
     queryFn: () => getProductById(productId),
@@ -15,9 +16,15 @@ const options = (productId: string) =>
     enabled: productId !== null
   })
 
+const options = queryOptions({
+  queryKey: ['products', 'last-10'],
+  queryFn: () => getProducts({ limit: 10, sort: 'name', order: 'desc' }),
+  select: res => res.data
+})
+
 export const Route = createFileRoute('/_layout/products/$productId')({
   loader: ({ params, context: { queryClient } }) =>
-    queryClient.ensureQueryData(options(params.productId)),
+    queryClient.ensureQueryData(optionsById(params.productId)),
   component: ProductPage
 })
 
@@ -25,8 +32,11 @@ function ProductPage() {
   const param = Route.useParams()
   const router = useRouter()
 
-  const productQuery = useSuspenseQuery(options(param.productId))
+  const productQuery = useSuspenseQuery(optionsById(param.productId))
   const product = productQuery.data
+
+  const otherProductsQuery = useSuspenseQuery(options)
+  const otherProducts = otherProductsQuery.data
 
   return (
     <>
@@ -42,7 +52,7 @@ function ProductPage() {
       </div>
 
       <div className='mt-4'>
-        <div className='grid grid-cols-5'>
+        <div className='mr-10 grid gap-5 md:grid-cols-5'>
           <div className='col-span-3 flex max-h-[500px] items-center justify-center'>
             <img
               src={product.photo}
@@ -76,9 +86,15 @@ function ProductPage() {
                 ))}
               </div>
             </div>
-
-            <AddToCart productId={product.id} />
+            <AddToCart productId={product.id} className='mt-4' />
           </div>
+        </div>
+        <div className='mt-8'>
+          <span className='font-bold text-xl'>Other products</span>
+          <ProductTable products={otherProducts} className='' />
+          <Link to='/products' className='mt-4 flex justify-center'>
+            <Button>View all products</Button>
+          </Link>
         </div>
       </div>
     </>

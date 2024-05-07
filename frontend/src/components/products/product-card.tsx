@@ -13,8 +13,12 @@ type ProductCardProps = {
 
 function ProductCard({ product, className }: ProductCardProps) {
   return (
-    <Link to={`/products/${product.id}`} className={cn('group', className)}>
-      <Card className='h-full'>
+    <Link
+      to={`/products/${product.id}`}
+      className={className}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+    >
+      <Card className='h-full transition-all duration-300 hover:bg-secondary'>
         <div className='overflow-hidden'>
           <img
             src={product.photo}
