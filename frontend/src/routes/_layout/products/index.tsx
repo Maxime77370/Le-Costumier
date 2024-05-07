@@ -46,7 +46,7 @@ function Products() {
 
   return (
     <>
-      <div className='sticky top-0 z-10 flex w-full justify-between'>
+      <div className='sticky top-16 z-10 mt-[2.5rem] flex w-full justify-between'>
         <Button
           size='icon'
           variant='ghost'
@@ -66,7 +66,7 @@ function Products() {
         </Button>
       </div>
 
-      <div className='mx-12'>
+      <div className='mx-12 mt-[-4.5rem]'>
         <h2 className='font-semibold text-2xl'>Featured Products</h2>
 
         <ProductsFilter className='mt-2' />
