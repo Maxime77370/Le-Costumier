@@ -40,7 +40,7 @@ function ProductPage() {
 
   return (
     <>
-      <div className='sticky top-0 z-10 flex w-full justify-between'>
+      <div className='sticky top-16 z-10 flex w-full justify-between'>
         <Button
           size='icon'
           variant='ghost'
@@ -89,7 +89,7 @@ function ProductPage() {
             <AddToCart productId={product.id} className='mt-4' />
           </div>
         </div>
-        <div className='mt-8'>
+        <div className='mx-10 mt-8'>
           <span className='font-bold text-xl'>Other products</span>
           <ProductTable products={otherProducts} className='' />
           <Link to='/products' className='mt-4 flex justify-center'>
