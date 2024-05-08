@@ -13,10 +13,15 @@ import {
   CommandList,
   CommandLoading
 } from '@/components/ui/command'
+import { cn } from '@/lib/utils'
 import { Icons } from '../icons'
 import { Button } from '../ui/button'
 
-function SearchBar() {
+type SearchBarProps = {
+  className?: string
+}
+
+function SearchBar({ className }: SearchBarProps) {
   const router = useRouter()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -54,10 +59,10 @@ function SearchBar() {
     <>
       <Button
         variant='outline'
-        className='text-muted-foreground'
+        className={cn('text-muted-foreground', className)}
         onClick={() => setIsOpen(true)}
       >
-        Search for products...
+        {window.innerWidth <= 768 ? 'Search' : 'Search for products...'}
       </Button>
 
       <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
