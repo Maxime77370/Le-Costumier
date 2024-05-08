@@ -50,6 +50,7 @@ type AccountFormProps = {
 
 function AccountForm({ user, className, onSuccess }: AccountFormProps) {
   const setUser = useAuthStore(state => state.setUser)
+  const oldUser = useAuthStore(state => state.user)
 
   const form = useForm<SchemaType>({
     resolver: zodResolver(schema),
@@ -64,12 +65,22 @@ function AccountForm({ user, className, onSuccess }: AccountFormProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateUser,
-    onSuccess: result => {
+    onSuccess: (result, variables) => {
       setUser({
-        firstName: result.data.firstname,
-        lastName: result.data.lastname,
-        login: result.data.login,
-        email: result.data.email
+        firstName:
+          variables.firstName !== undefined
+            ? variables.firstName
+            : oldUser?.firstName ?? '',
+        lastName:
+          variables.lastName !== undefined
+            ? variables.lastName
+            : oldUser?.lastName ?? '',
+        login:
+          variables.login !== undefined
+            ? variables.login
+            : oldUser?.login ?? '',
+        email:
+          variables.email !== undefined ? variables.email : oldUser?.email ?? ''
       })
 
       if (onSuccess) {
@@ -79,7 +90,28 @@ function AccountForm({ user, className, onSuccess }: AccountFormProps) {
   })
 
   const onSubmit = (data: SchemaType) => {
-    mutate(data)
+    mutate({
+      firstName: oldUser
+        ? data.firstName !== oldUser?.firstName
+          ? data.firstName
+          : undefined
+        : data.firstName,
+      lastName: oldUser
+        ? data.lastName !== oldUser?.lastName
+          ? data.lastName
+          : undefined
+        : data.lastName,
+      login: oldUser
+        ? data.login !== oldUser?.login
+          ? data.login
+          : undefined
+        : data.login,
+      email: oldUser
+        ? data.email !== oldUser?.email
+          ? data.email
+          : undefined
+        : data.email
+    })
   }
 
   return (
