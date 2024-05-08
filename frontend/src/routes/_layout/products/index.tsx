@@ -46,11 +46,11 @@ function Products() {
 
   return (
     <>
-      <div className='sticky top-16 z-10 mt-[2.5rem] flex w-full justify-between'>
+      <div className='pointer-events-none sticky top-16 z-0 mt-[2.5rem] flex w-full justify-between'>
         <Button
           size='icon'
           variant='ghost'
-          className='mt-2 size-8'
+          className='pointer-events-auto mt-2 size-8'
           onClick={() => router.history.back()}
         >
           <Icons.arrowLeft />
@@ -59,7 +59,7 @@ function Products() {
         <Button
           size='icon'
           variant='ghost'
-          className='mt-2 size-8'
+          className='pointer-events-auto mt-2 size-8'
           onClick={toggleListMode}
         >
           <IconMode />
