@@ -8,10 +8,10 @@ type UserDatabase = {
 export type GetCurrentUserResult = UserDatabase
 
 export type UpdateUserInput = {
-  firstName: string | null
-  lastName: string | null
-  email: string
-  login: string
+  firstName?: string | null
+  lastName?: string | null
+  email?: string
+  login?: string
   password?: string
 }
 

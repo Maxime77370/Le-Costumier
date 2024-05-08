@@ -40,9 +40,10 @@ type SchemaType = z.infer<typeof schema>
 type RegisterFormProps = {
   className?: string
   onSuccess?: () => void
+  onError?: (error: unknown) => void
 }
 
-function RegisterForm({ className, onSuccess }: RegisterFormProps) {
+function RegisterForm({ className, onSuccess, onError }: RegisterFormProps) {
   const form = useForm<SchemaType>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -56,7 +57,8 @@ function RegisterForm({ className, onSuccess }: RegisterFormProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: register,
-    onSuccess
+    onSuccess,
+    onError
   })
 
   const onSubmit = (data: SchemaType) => {

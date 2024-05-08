@@ -12,10 +12,6 @@ export async function getCurrentUser() {
 
 export async function updateUser(input: UpdateUserInput) {
   return instance.put<UpdateUserResult>('/users', {
-    firstname: input.firstName,
-    lastname: input.lastName,
-    email: input.email,
-    login: input.login,
-    password: input.password
+    ...input
   })
 }

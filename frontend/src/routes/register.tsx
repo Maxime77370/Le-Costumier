@@ -33,6 +33,8 @@ function Register() {
             toast.success('Account created successfully!')
             navigate({ to: '/login' })
           }}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onError={(error: any) => toast.error(error.response.data.error)}
         />
 
         <p className='text-sm text-muted-foreground'>
