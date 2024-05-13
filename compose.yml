@@ -1,0 +1,42 @@
+services:
+  
+  postgres:
+    image: 'postgres:alpine'
+    container_name: 'postgres'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'password'
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  php:
+    build: ./
+    container_name: 'php'
+    environment:
+      - 'DATABASE_URL=postgres://postgres:password@postgres:5432/ecommerce'
+    volumes:
+      - php:/var/www/symfony
+    ports:
+      - '8000:8000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:1.16.0-alpine
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+
+volumes:
+  php:
